@@ -7,7 +7,7 @@ import simulator.misc.Vector2D;
 /*
  * Un objeto de tipo Body contiene
 (como atributos protected) un identificador id (String), un identificador de su grupo gid (String), un vector de velocidad ~v, un vector de
-fuerza ~f, un vector de posición ~p y una masa m (double).
+fuerza ~f, un vector de posiciï¿½n ~p y una masa m (double).
  */
 public abstract class Body {
 	protected String id;
@@ -38,24 +38,24 @@ public abstract class Body {
 	public Vector2D getForce(){   // devuelve el vector de fuerza.
 		return f;			
 	}
-	public Vector2D getPosition() {   // devuelve el vector de posición.
+	public Vector2D getPosition() {   // devuelve el vector de posiciï¿½n.
 		return p;		
 	}
 	public double getMass() {   // devuelve la masa del cuerpo.
 		return m;			
 	}
 	
-	protected void addForce(Vector2D f) {// añade la fuerza f al vector de fuerza del cuerpo (usando el método plus de la clase Vector2D).
-		
+	protected void addForce(Vector2D f) {// aï¿½ade la fuerza f al vector de fuerza del cuerpo (usando el mï¿½todo plus de la clase Vector2D).
+		this.f.plus(f);
 	}
 	
 	protected void resetForce(){   // pone el valor del vector de fuerza a (0, 0).
-		
+		f.scale(0);
 	}
-	abstract void advance(double dt);  //mueve el cuerpo durante dt segundos (las implementaciones están el las sub-clases).
+	abstract void advance(double dt);  //mueve el cuerpo durante dt segundos (las implementaciones estï¿½n el las sub-clases).
 		
-	public JSONObject getState() {
-		return null; //devuelve la siguiente información del cuerpo en formato JSON (como JSONObject): {“id": id, "m": m, "p": ~p, "v": ~v, "f": ~f}
+	public JSONObject getState() {   //devuelve la siguiente informaciï¿½n del cuerpo en formato JSON (como JSONObject): {ï¿½id": id, "m": m, "p": ~p, "v": ~v, "f": ~f}
+		return null; 
 	
 	 }
 	public String toString() {

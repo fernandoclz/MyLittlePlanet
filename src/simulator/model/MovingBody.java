@@ -23,14 +23,19 @@ public class MovingBody extends Body{
 		}
 		else
 			a = new Vector2D();
-		 // posición a ~p + ~v · t + 1/2 · ~a ·t^2 y la velocidad a ~v + ~a · t
+		 // posiciï¿½n a ~p + ~v ï¿½ t + 1/2 ï¿½ ~a ï¿½t^2 y la velocidad a ~v + ~a ï¿½ t
+		
 		double p1, p2, v1, v2;
+		
 		p1 = this.p.getX() + this.v.getX() * dt + (1/2)* a.getX() * dt*2;
 		p2 = this.p.getY() + this.v.getY() * dt + (1/2)* a.getY() * dt*2;
+		
 		this.p = new Vector2D(p1,p2);
+		
 		
 		v1 = this.v.getX() + a.getX() * dt;
 		v2 = this.v.getY() + a.getY() * dt;
+		
 		this.v = new Vector2D(v1,v2);
 	}
 

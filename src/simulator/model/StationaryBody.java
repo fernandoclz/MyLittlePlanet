@@ -11,7 +11,6 @@ public class StationaryBody extends Body{
 
 	@Override
 	void advance(double dt) { //no hace nada
-		// TODO Auto-generated method stub
 		
 	}
 
