@@ -12,31 +12,20 @@ public class MovingBody extends Body{
 	@Override
 	void advance(double dt) {
 		// TODO Auto-generated method stub
-		double a1, a2;
 	
 		Vector2D a;
 		
 		if(m != 0) {
-			a1 = this.f.getX()/m;
-			a2 = this.f.getY()/m;
-			a = new Vector2D(a1,a2);
+			
+			a = this.f.scale(1/this.m);
 		}
 		else
 			a = new Vector2D();
-		 // posici�n a ~p + ~v � t + 1/2 � ~a �t^2 y la velocidad a ~v + ~a � t
+		 // position a ~p + ~v � t + 1/2 � ~a �t^2 y la velocidad a ~v + ~a � t
 		
-		double p1, p2, v1, v2;
-		
-		p1 = this.p.getX() + this.v.getX() * dt + (1/2)* a.getX() * dt*2;
-		p2 = this.p.getY() + this.v.getY() * dt + (1/2)* a.getY() * dt*2;
-		
-		this.p = new Vector2D(p1,p2);
-		
-		
-		v1 = this.v.getX() + a.getX() * dt;
-		v2 = this.v.getY() + a.getY() * dt;
-		
-		this.v = new Vector2D(v1,v2);
+		this.p = this.p.plus(this.v.scale(dt).plus(a.scale(dt*dt*1/2)));
+		this.v = this.v.plus(a.scale(dt));
+	
 	}
 
 }
