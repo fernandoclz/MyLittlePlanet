@@ -11,7 +11,7 @@ public class NewtonUniversalGravitation implements ForceLaws{
 		
 	}
 	
-	public NewtonUniversalGravitation (double G) throws IllegalArgumentException{
+	public NewtonUniversalGravitation (double G) {
 		this.G = G;
 	}
 	

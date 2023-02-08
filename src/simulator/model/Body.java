@@ -52,11 +52,20 @@ public abstract class Body {
 	protected void resetForce(){   // pone el valor del vector de fuerza a (0, 0).
 		f.scale(0);
 	}
+	
 	abstract void advance(double dt);  //mueve el cuerpo durante dt segundos (las implementaciones est�n el las sub-clases).
 		
 	public JSONObject getState() {   //devuelve la siguiente informaci�n del cuerpo en formato JSON (como JSONObject): {�id": id, "m": m, "p": ~p, "v": ~v, "f": ~f}
-		return null; 
-	
+		
+		JSONObject data = new JSONObject();
+		//?
+		data.put("id", this.id);
+		data.put("m", this.m);
+		data.put("p", this.p);
+		data.put("v", this.v);
+		data.put("f", this.f);
+		
+		return data;
 	 }
 	public String toString() {
 		return getState().toString(); //devuelve getState().toString().
