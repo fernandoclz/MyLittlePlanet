@@ -55,10 +55,10 @@ public abstract class Body {
 	
 	abstract void advance(double dt);  //mueve el cuerpo durante dt segundos (las implementaciones est�n el las sub-clases).
 		
-	public JSONObject getState() {   //devuelve la siguiente informaci�n del cuerpo en formato JSON (como JSONObject): {�id": id, "m": m, "p": ~p, "v": ~v, "f": ~f}
+	public JSONObject getState() {   //devuelve la siguiente informacion del cuerpo en formato JSON (como JSONObject): {�id": id, "m": m, "p": ~p, "v": ~v, "f": ~f}
 		
 		JSONObject data = new JSONObject();
-		//?
+		
 		data.put("id", this.id);
 		data.put("m", this.m);
 		data.put("p", this.p);

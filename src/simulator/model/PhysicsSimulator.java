@@ -15,7 +15,31 @@ public class PhysicsSimulator {
 	
 	//Methods
 	public void advance() {
-		
+		//grupo.advance(this.t)
 		this.t++;
 	}
+	
+	public void addGroup(String id) {
+		
+	}
+	
+	public void addBody (Body b) {
+		
+	}
+	
+	public void setForceLaws (String id, ForceLaws f) {
+		
+	}
+	/*
+	public JSONObject getState() {
+		JSONObject obj;
+		
+		obj.put("time", this.t);
+		obj.put("groups", this.body.getState());
+		return obj;
+	}*/
+	/*
+	public String toString() {
+		return getState().toString();
+	}*/
 }
