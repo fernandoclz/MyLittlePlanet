@@ -18,12 +18,23 @@ public abstract class Body {
 	protected double m;
 	
 	public Body (String id, String gid, Vector2D v, Vector2D p, double m) throws IllegalArgumentException{
+		try {
 		this.id = id;
-		this.gid = gid;
+		if(gid.trim().length()>0)
+			this.gid = gid;
+		else
+			throw new NullPointerException();
 		this.v = v;
 		this.f = new Vector2D();
 		this.p = p;
-		this.m = m;
+		if(m >= 0)
+			this.m = m;
+		else
+			throw new NullPointerException();
+		}
+		catch(NullPointerException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
  
 	public String getId() {  //devuelve el identificador del cuerpo
