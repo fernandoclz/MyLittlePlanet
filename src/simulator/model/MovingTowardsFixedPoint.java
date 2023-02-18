@@ -9,16 +9,23 @@ public class MovingTowardsFixedPoint implements ForceLaws{
 	Vector2D c;
 	double g; //aceleracion
 	
-	public MovingTowardsFixedPoint (Vector2D c, double g) throws IllegalArgumentException {
-		this.c = c;
-		this.g = g;
+	public MovingTowardsFixedPoint (Vector2D c, double g){
+		if (c == null || g < 0) {
+			throw new IllegalArgumentException();
+		}
+		else {
+			this.c = c;
+			this.g = g;
+		}
 	}
 
 	@Override
 	public void apply(List<Body> bs) {
 		// TODO Auto-generated method stub
 		Vector2D d;
-		d = c.minus((bs).getPosition());
-		bs.f = d.scale(bs.m * g);
+		for(Body b: bs) {
+			d = c.minus(b.p);
+			b.f = d.scale(b.m*g);
+		}
 	}
 }

@@ -34,7 +34,7 @@ public class BodiesGroup {
 	}
 	
 	public void addBody(Body b) { 
-		if(bodies.contains(b) || b == null) //comprobar que no existe ningún otro cuerpo en el
+		if(bodies.contains(b) || b == null) //comprobar que no existe ningï¿½n otro cuerpo en el
 											//grupo con el mismo identificador
 			throw new IllegalArgumentException(); //?
 		else
@@ -42,21 +42,30 @@ public class BodiesGroup {
 	}
 	
 	public void advance(double dt) {
-		//1. Llama al método resetForce de todos los cuerpos
-		for() {
-			
-		}
-		//2. Llama al método apply de las leyes de fuerza
-	}
-	/*
-	public JSONObject getState() {
-		JSONObject obj;
 		
-		obj.put("id", this.id);
-		obj.put("bodies", this.bodies.getState());
-		return obj;
+		for(Body b : bodies) {
+			//1. Llama al metodo resetForce de todos los cuerpos
+			b.resetForce();
+			//2. Llama al metodo apply de las leyes de fuerza
+			law.apply(bodies);
+			//3. llama a advance(dt) para cada cuerpo, si dt no es positivo lanza excepcion
+			if(dt >= 0)
+				b.advance(dt);
+			else
+				throw new IllegalArgumentException(); //?
+		}
+		
 	}
 	
+	public JSONObject getState(int i) { //int i?
+		JSONObject obj = null;
+		Body b = bodies.get(i); //?
+		
+		obj.put("id", this.id);
+		obj.put("bodies", b.getState());
+		return obj;
+	}
+	/*
 	public String toString() {
 		return getState().toString();
 	}*/

@@ -40,18 +40,23 @@ public abstract class Body {
 	public String getId() {  //devuelve el identificador del cuerpo
 		return id;		
 	}
+	
 	public String getGid() {		//devuelve el identificador del grupo al que pertenece el cuerpo.
 		return gid;    
 	}
+	
 	public Vector2D getVelocity() {   // devuelve el vector de velocidad.
 		return v;		
 	}
+	
 	public Vector2D getForce(){   // devuelve el vector de fuerza.
 		return f;			
 	}
+	
 	public Vector2D getPosition() {   // devuelve el vector de posici�n.
 		return p;		
 	}
+	
 	public double getMass() {   // devuelve la masa del cuerpo.
 		return m;			
 	}
@@ -60,8 +65,8 @@ public abstract class Body {
 		this.f.plus(f);
 	}
 	
-	protected void resetForce(){   // pone el valor del vector de fuerza a (0, 0).
-		f.scale(0);
+	public void resetForce(){   // cambiado a public porque se necesita en BodiesGroup (antes era protected)
+		f.scale(0);				 // pone el valor del vector de fuerza a (0, 0) 
 	}
 	
 	abstract void advance(double dt);  //mueve el cuerpo durante dt segundos (las implementaciones est�n el las sub-clases).
@@ -78,6 +83,7 @@ public abstract class Body {
 		
 		return data;
 	 }
+	
 	public String toString() {
 		return getState().toString(); //devuelve getState().toString().
 	}

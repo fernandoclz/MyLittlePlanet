@@ -10,8 +10,8 @@ public class StationaryBody extends Body{
 	}
 
 	@Override
-	void advance(double dt) { //no hace nada
-		
+	void advance(double dt) { 
+		//no hace nada
 	}
 
 }

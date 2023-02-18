@@ -14,16 +14,17 @@ public class MovingBody extends Body{
 		// TODO Auto-generated method stub
 	
 		Vector2D a;
-		
+		//calculo aceleracion
 		if(m != 0) {
-			
+			//a = f/m
 			a = this.f.scale(1/this.m);
 		}
 		else
-			a = new Vector2D();
-		 // position a ~p + ~v � t + 1/2 � ~a �t^2 y la velocidad a ~v + ~a � t
+			a = new Vector2D(); //aceleracion = (0,0)
 		
+		//p = p + v*t + 1/2*a*t^2
 		this.p = this.p.plus(this.v.scale(dt).plus(a.scale(dt*dt*1/2)));
+		//v = v + a*t
 		this.v = this.v.plus(a.scale(dt));
 	
 	}
