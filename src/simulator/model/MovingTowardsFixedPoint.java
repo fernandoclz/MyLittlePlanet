@@ -6,7 +6,7 @@ import simulator.misc.Vector2D;
 
 public class MovingTowardsFixedPoint implements ForceLaws{
 
-	Vector2D c;
+	Vector2D c; //punto fijo
 	double g; //aceleracion
 	
 	public MovingTowardsFixedPoint (Vector2D c, double g){
@@ -24,8 +24,8 @@ public class MovingTowardsFixedPoint implements ForceLaws{
 		// TODO Auto-generated method stub
 		Vector2D d;
 		for(Body b: bs) {
-			d = c.minus(b.p);
-			b.f = d.scale(b.m*g);
+			d = c.minus(b.getPosition());
+			b.f = d.scale(b.getMass()*g);
 		}
 	}
 }
