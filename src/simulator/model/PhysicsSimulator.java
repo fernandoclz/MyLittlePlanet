@@ -2,6 +2,8 @@ package simulator.model;
 
 import java.util.Map;
 
+import org.json.JSONObject;
+
 public class PhysicsSimulator {
 
 	private double t;
@@ -26,26 +28,26 @@ public class PhysicsSimulator {
 	
 	public void addGroup(String id) { //añade un nuevo grupo con identificador
 										//id al mapa de grupos
-	
+		mapa.put(id, new BodiesGroup());
 	}
 	
 	public void addBody (Body b) {
 		
 	}
 	
-	public void setForceLaws (String id, ForceLaws f) {
+	public void setForceLaws (String id, ForceLaws fl) {
 		
 	}
-	/*
+	
 	public JSONObject getState() {
 		JSONObject obj;
 		
 		obj.put("time", this.t);
 		obj.put("groups", this.body.getState());
 		return obj;
-	}*/
-	/*
+	}
+	
 	public String toString() {
 		return getState().toString();
-	}*/
+	}
 }

@@ -3,6 +3,7 @@ package simulator.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class BodiesGroup {
@@ -13,6 +14,11 @@ public class BodiesGroup {
 	private List<Body>bodies; //lista de Cuerpos
 	
 	//Constructor
+	
+	public BodiesGroup() {
+		
+	}
+	
 	public BodiesGroup (String id, ForceLaws law) throws IllegalArgumentException{
 		this.id = id;
 		this.law = law;
@@ -57,16 +63,20 @@ public class BodiesGroup {
 		
 	}
 	
-	public JSONObject getState(int i) { //int i?
-		JSONObject obj = null;
-		Body b = bodies.get(i); //?
+	public JSONObject getState() { //int i?
+		JSONObject obj = new JSONObject();
+		JSONArray arr = new JSONArray();
 		
 		obj.put("id", this.id);
-		obj.put("bodies", b.getState());
+		for(Body b: bodies) {
+			//LLeno el JSONARRAY
+			arr.put(b);
+		}
+		obj.put("bodies", arr);
 		return obj;
 	}
-	/*
+	
 	public String toString() {
 		return getState().toString();
-	}*/
+	}
 }
