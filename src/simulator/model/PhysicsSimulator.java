@@ -43,7 +43,7 @@ public class PhysicsSimulator {
 		//Si tira la excepción esto no se ejecuta
 		mapa.put(id, new BodiesGroup());
 		// anhadir leyes físicas
-		
+		setForceLaws(id, law);
 	}
 	
 	public void addBody (Body b) {
