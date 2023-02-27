@@ -2,20 +2,21 @@ package simulator.factories;
 
 import org.json.JSONObject;
 
-import simulator.model.Body;
+import simulator.model.ForceLaws;
 
-public class StationaryBodyBuilder extends Builder<Body>{
+public class NoForceBuilder extends Builder<ForceLaws>{
 
-	public StationaryBodyBuilder() {
+	
+	public NoForceBuilder(){
 		super(null, null);
 	}
-	public StationaryBodyBuilder(String typeTag, String desc) {
+	public NoForceBuilder(String typeTag, String desc) {
 		super(typeTag, desc);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	protected Body createInstance(JSONObject data) {
+	protected ForceLaws createInstance(JSONObject data) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -6,6 +6,9 @@ import simulator.model.Body;
 
 public class MovingBodyBuilder extends Builder<Body>{
 
+	public MovingBodyBuilder(){
+		super(null, null);
+	}
 	public MovingBodyBuilder(String typeTag, String desc) {
 		super(typeTag, desc);
 		// TODO Auto-generated constructor stub

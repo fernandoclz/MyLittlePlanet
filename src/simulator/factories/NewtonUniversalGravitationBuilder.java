@@ -11,6 +11,11 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 		// TODO Auto-generated constructor stub
 	}
 
+	public NewtonUniversalGravitationBuilder() {
+		// TODO Auto-generated constructor stub
+		super(null, null);
+	}
+
 	@Override
 	protected ForceLaws createInstance(JSONObject data) {
 		// TODO Auto-generated method stub
