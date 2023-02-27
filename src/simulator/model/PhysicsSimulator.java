@@ -2,6 +2,7 @@ package simulator.model;
 
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class PhysicsSimulator {
@@ -22,17 +23,31 @@ public class PhysicsSimulator {
 	
 	//Methods
 	public void advance() {
-		//grupo.advance(this.t)
+		
+		for(BodiesGroup b: mapa.values()) {
+			//LLeno el JSONARRAY
+			b.advance(t);
+		}
 		this.t++;
 	}
 	
 	public void addGroup(String id) { //añade un nuevo grupo con identificador
 										//id al mapa de grupos
 		mapa.put(id, new BodiesGroup());
+		// faltan cosas
 	}
 	
 	public void addBody (Body b) {
 		
+		for(BodiesGroup bg: mapa.values()) {
+			//Corregido: Excepción si no existe un grupo con el mismo id
+			if(bg.getId() == b.getId()) {
+				bg.addBody(b);
+			}
+			else {
+				throw new IllegalArgumentException();
+			}
+		}
 	}
 	
 	public void setForceLaws (String id, ForceLaws fl) {
@@ -40,10 +55,14 @@ public class PhysicsSimulator {
 	}
 	
 	public JSONObject getState() {
-		JSONObject obj;
+		JSONObject obj = new JSONObject();
+		JSONArray arr = new JSONArray();
 		
-		obj.put("time", this.t);
-		obj.put("groups", this.body.getState());
+		for(BodiesGroup b: mapa.values()) {
+			//LLeno el JSONARRAY
+			arr.put(b);
+		}
+		
 		return obj;
 	}
 	
