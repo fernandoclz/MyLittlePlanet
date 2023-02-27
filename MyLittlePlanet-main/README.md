@@ -1,2 +1,0 @@
-# MyLittlePlanet
-No
