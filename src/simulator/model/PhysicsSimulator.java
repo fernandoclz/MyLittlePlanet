@@ -28,33 +28,60 @@ public class PhysicsSimulator {
 			//LLeno el JSONARRAY
 			b.advance(t);
 		}
-		this.t++;
+		this.t++;  //problema, tienen que ser segundos reales, aqui añadimos 1 por ciclo
 	}
 	
 	public void addGroup(String id) { //añade un nuevo grupo con identificador
 										//id al mapa de grupos
+		for(BodiesGroup b: mapa.values()) {
+			//LLeno el JSONARRAY
+			if(id == b.getId()) {
+				throw new IllegalArgumentException();
+			}
+		}
+		
+		//Si tira la excepción esto no se ejecuta
 		mapa.put(id, new BodiesGroup());
-		// faltan cosas
+		// anhadir leyes físicas
+		
 	}
 	
 	public void addBody (Body b) {
 		
+		boolean existe = false;
+		
 		for(BodiesGroup bg: mapa.values()) {
 			//Corregido: Excepción si no existe un grupo con el mismo id
+			
 			if(bg.getId() == b.getId()) {
 				bg.addBody(b);
+				existe = true;
 			}
-			else {
-				throw new IllegalArgumentException();
-			}
+		}
+		
+		if(!existe) {
+			throw new IllegalArgumentException();
 		}
 	}
 	
 	public void setForceLaws (String id, ForceLaws fl) {
+		boolean existe = false;
 		
+		//Corregido: Excepción si no existe un grupo con el mismo id
+		for(BodiesGroup b: mapa.values()) {
+			//LLeno el JSONARRAY
+			if(b.getId() == id){
+				b.setForceLaws(fl);
+				existe = true;
+			}
+		}
+		
+		if(!existe) {
+			throw new IllegalArgumentException();
+		}
 	}
 	
-	public JSONObject getState() {
+	public JSONObject getState() {   //Esto no está bien
 		JSONObject obj = new JSONObject();
 		JSONArray arr = new JSONArray();
 		
