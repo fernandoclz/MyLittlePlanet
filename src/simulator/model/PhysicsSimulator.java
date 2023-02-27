@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -10,6 +11,7 @@ public class PhysicsSimulator {
 	private double t;
 	private ForceLaws law;
 	private Map<String,BodiesGroup> mapa; //? clave : gid, valor: grupo
+	private List<String> listaGid;
 	
 	public PhysicsSimulator (double t, ForceLaws law) { //public PhysicsSimulator ()
 		if(t < 0 || law == null) {
@@ -28,10 +30,10 @@ public class PhysicsSimulator {
 			//LLeno el JSONARRAY
 			b.advance(t);
 		}
-		this.t++;  //problema, tienen que ser segundos reales, aqui añadimos 1 por ciclo
+		this.t++;  //problema, tienen que ser segundos reales, aqui anadimos 1 por ciclo
 	}
 	
-	public void addGroup(String id) { //añade un nuevo grupo con identificador
+	public void addGroup(String id) { //anade un nuevo grupo con identificador
 										//id al mapa de grupos
 		for(BodiesGroup b: mapa.values()) {
 			//LLeno el JSONARRAY
@@ -40,9 +42,9 @@ public class PhysicsSimulator {
 			}
 		}
 		
-		//Si tira la excepción esto no se ejecuta
+		//Si tira la excepcion esto no se ejecuta
 		mapa.put(id, new BodiesGroup());
-		// anhadir leyes físicas
+		// anhadir leyes fisicas
 		setForceLaws(id, law);
 	}
 	
@@ -51,7 +53,7 @@ public class PhysicsSimulator {
 		boolean existe = false;
 		
 		for(BodiesGroup bg: mapa.values()) {
-			//Corregido: Excepción si no existe un grupo con el mismo id
+			//Corregido: Excepcion si no existe un grupo con el mismo id
 			
 			if(bg.getId() == b.getId()) {
 				bg.addBody(b);
@@ -67,9 +69,8 @@ public class PhysicsSimulator {
 	public void setForceLaws (String id, ForceLaws fl) {
 		boolean existe = false;
 		
-		//Corregido: Excepción si no existe un grupo con el mismo id
+		//Corregido: Excepcion si no existe un grupo con el mismo id
 		for(BodiesGroup b: mapa.values()) {
-			//LLeno el JSONARRAY
 			if(b.getId() == id){
 				b.setForceLaws(fl);
 				existe = true;
@@ -81,15 +82,17 @@ public class PhysicsSimulator {
 		}
 	}
 	
-	public JSONObject getState() {   //Esto no está bien
+	public JSONObject getState() {   //corregido
 		JSONObject obj = new JSONObject();
 		JSONArray arr = new JSONArray();
+		//List<String> como atributo
 		
-		for(BodiesGroup b: mapa.values()) {
+		obj.put("time", t);
+		for(BodiesGroup b: mapa.values()) { 
 			//LLeno el JSONARRAY
-			arr.put(b);
+			//arr.put(b.getState());
 		}
-		
+		obj.put("groups", arr);
 		return obj;
 	}
 	

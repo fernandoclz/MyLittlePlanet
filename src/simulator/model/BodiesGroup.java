@@ -19,11 +19,11 @@ public class BodiesGroup {
 		
 	}
 	
-	public BodiesGroup (String id, ForceLaws law) throws IllegalArgumentException{
+	public BodiesGroup (String id, ForceLaws law) throws IllegalArgumentException{	
 		this.id = id;
 		this.law = law;
 		bodies = new ArrayList<>();
-		//exceptions
+		//falta exceptions
 	}
 	
 	//Methods
@@ -40,7 +40,7 @@ public class BodiesGroup {
 	}
 	
 	public void addBody(Body b) { 
-		if(bodies.contains(b) || b == null) //comprobar que no existe ning�n otro cuerpo en el
+		if(bodies.contains(b) || b == null) //comprobar que no existe ningun otro cuerpo en el
 											//grupo con el mismo identificador
 			throw new IllegalArgumentException(); //?
 		else
@@ -49,6 +49,10 @@ public class BodiesGroup {
 	
 	public void advance(double dt) {
 		
+		/*
+		 if(dt < 0)
+		 	throw new IllegalArgumentException(); //?
+		 */
 		for(Body b : bodies) {
 			//1. Llama al metodo resetForce de todos los cuerpos
 			b.resetForce();
@@ -59,11 +63,12 @@ public class BodiesGroup {
 				b.advance(dt);
 			else
 				throw new IllegalArgumentException(); //?
+			//quito el if y el else y pongo b.advance(dt);
 		}
 		
 	}
 	
-	public JSONObject getState() { //int i?
+	public JSONObject getState() { 
 		JSONObject obj = new JSONObject();
 		JSONArray arr = new JSONArray();
 		
