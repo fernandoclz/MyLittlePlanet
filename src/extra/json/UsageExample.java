@@ -70,7 +70,7 @@ public class UsageExample {
 			System.out.println(ja.getInt(i)); // We know the elements are Int
 		}
 
-		// Nested JSON Objects
+		// Nested JSON Objects (Nested = anidado)
 		//
 		System.out.println();
 		System.out.println("** Access a JSON structure value");

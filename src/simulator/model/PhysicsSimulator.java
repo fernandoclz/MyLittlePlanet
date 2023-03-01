@@ -85,13 +85,19 @@ public class PhysicsSimulator {
 	public JSONObject getState() {   //corregido
 		JSONObject obj = new JSONObject();
 		JSONArray arr = new JSONArray();
-		//List<String> como atributo
 		
 		obj.put("time", t);
-		for(BodiesGroup b: mapa.values()) { 
+		/*for(BodiesGroup b: mapa.values()) { 
 			//LLeno el JSONARRAY
 			//arr.put(b.getState());
+		}*/
+	//	 El orden de los grupos tiene que ser el orden de creación,
+	//	 para esto hay que mantener una lista de identificadores (List<String>) de grupos 
+	//	 porque no hay orden garantizado para las claves del mapa
+		for(String gid: listaGid) {
+			arr.put(mapa.get(gid)); //creo, V get(K clave): Devuelve el valor asociado a la clave (teoría)
 		}
+		
 		obj.put("groups", arr);
 		return obj;
 	}
