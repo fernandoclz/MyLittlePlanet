@@ -10,11 +10,12 @@ public class NewtonUniversalGravitation implements ForceLaws{
 	private double G;
 	
 	public NewtonUniversalGravitation (double G) {
-		if(G < 0)
-			throw new IllegalArgumentException(); //?
+		if(G >= 0)
+			this.G = G;
 		
 		else {
-			this.G = G;
+			throw new IllegalArgumentException(); //lanzar una excepción de tipo IllegalArgumentException
+													// si el valor de G no es positivo
 		}
 	}
 	

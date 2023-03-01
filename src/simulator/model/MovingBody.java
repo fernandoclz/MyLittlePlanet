@@ -4,6 +4,8 @@ import simulator.misc.Vector2D;
 
 public class MovingBody extends Body{
 
+	protected Vector2D a; //aceleracion //creo que iria como atributo
+	
 	public MovingBody(String id, String gid, Vector2D v, Vector2D p, double m) throws IllegalArgumentException {
 		super(id, gid, v, p, m);
 		// TODO Auto-generated constructor stub
@@ -13,7 +15,6 @@ public class MovingBody extends Body{
 	void advance(double dt) {
 		// TODO Auto-generated method stub
 	
-		Vector2D a;
 		//calculo aceleracion
 		if(m != 0) {
 			//a = f/m

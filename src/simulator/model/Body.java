@@ -17,20 +17,32 @@ public abstract class Body {
 	protected Vector2D p;
 	protected double m;
 	
-	public Body (String id, String gid, Vector2D v, Vector2D p, double m) throws IllegalArgumentException{
+	protected Body (String id, String gid, Vector2D v, Vector2D p, double m) throws IllegalArgumentException{ //protected segun uml
 		try {
-		this.id = id;
-		if(gid.trim().length()>0)
-			this.gid = gid;
-		else
-			throw new NullPointerException();
-		this.v = v;
-		this.f = new Vector2D();
-		this.p = p;
-		if(m >= 0)
-			this.m = m;
-		else
-			throw new NullPointerException();
+			/* lanzar una excepción del tipo IllegalArgumentException :
+		 	 1. cualquier parámetro es null
+		 	 if (id == null || gid == null || v == null, || p == null || m == null){
+		 	 	throw new NullPointerException();
+		 	 }
+			 2. gid.trim().length()>0
+			 3. m < 0
+		*/
+			if(id != null && gid != null && v != null && p != null) {
+				this.id = id;
+				if(gid.trim().length()>0)
+					this.gid = gid;
+				else
+					throw new NullPointerException(); //entonces, si esto se lanza, lo que sigue de codigo no se ejecuta y pasa al catch
+				this.v = v;
+				this.f = new Vector2D();
+				this.p = p;
+				if(m >= 0)
+					this.m = m;
+				else
+					throw new NullPointerException();
+			}
+			else
+				throw new NullPointerException();
 		}
 		catch(NullPointerException e) {
 			throw new IllegalArgumentException(e);
@@ -65,7 +77,7 @@ public abstract class Body {
 		this.f.plus(f);
 	}
 	
-	public void resetForce(){   // cambiado a public porque se necesita en BodiesGroup (antes era protected)
+	protected void resetForce(){   
 		f.scale(0);				 // pone el valor del vector de fuerza a (0, 0) 
 	}
 	
@@ -87,4 +99,6 @@ public abstract class Body {
 	public String toString() {
 		return getState().toString(); //devuelve getState().toString().
 	}
+	
+	//hashCode ? (uml)
 }
