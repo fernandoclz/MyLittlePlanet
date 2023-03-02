@@ -1,5 +1,6 @@
 package simulator.factories;
 
+
 import org.json.JSONObject;
 
 import simulator.misc.Vector2D;
@@ -9,7 +10,7 @@ import simulator.model.MovingBody;
 public class MovingBodyBuilder extends Builder<Body>{
 
 	public MovingBodyBuilder(){
-		super(null, null);
+		super("mv_body", "body");
 	}
 	public MovingBodyBuilder(String typeTag, String desc) { 
 		super(typeTag, desc);
@@ -19,24 +20,22 @@ public class MovingBodyBuilder extends Builder<Body>{
 	@Override
 	protected Body createInstance(JSONObject data) { //devuelve una instancia de la clase correspondiente (MovingBody)
 		// TODO Auto-generated method stub			 // (una instancia de un subtipo de T)
-		//data contiene type(string) y data(JSON) 
-		boolean excepcion = false;
-		/* Acceder a un JSON anidado
-		JSONObject jo2 = jo.getJSONObject("e");
-		for (String key : jo2.keySet()) {
-			System.out.println("-> " + key);
-		}*/
-		JSONObject data2 = data.getJSONObject("data"); //comprobamos si el data interior tiene alguna clave que sea null
-		for (String key : data2.keySet()) {
-			if(key == null) excepcion = true; //se comprueba que el key no es null o que el valor del key no es null?
+		
+		
+		for (String key : data.keySet()) {
+			if(key == null) 
+				throw new IllegalArgumentException(); 
 		}	
 		
-		if(data.has("type") && excepcion ) {
-			throw new IllegalArgumentException(); 
-		}
 		
 		//MovingBody(String id, String gid, Vector2D v, Vector2D p, double m)
-		return new MovingBody(data2.getString("id"), data2.getString("gid"), data2.get("v"), data2.get("p"), data2.getDouble("m"));
+		String id = data.getString("id");
+		String gid = data.getString("gid");
+		Vector2D v = new Vector2D(data.getJSONArray("v").getDouble(0), data.getJSONArray("v").getDouble(1));
+		Vector2D p = new Vector2D(data.getJSONArray("p").getDouble(0), data.getJSONArray("p").getDouble(1));
+		Double m = data.getDouble("m");
+		
+		return new MovingBody(id, gid, v, p, m);
 	}
 
 }
