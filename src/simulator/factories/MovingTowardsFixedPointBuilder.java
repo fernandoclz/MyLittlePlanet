@@ -18,16 +18,24 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws>{
 	}
 	@Override
 	protected ForceLaws createInstance(JSONObject data) {
+		
+		Vector2D c ;
+		Double g ;
 		// TODO Auto-generated method stub
-		for (String key : data.keySet()) {
-			if(key == null) 
-				throw new IllegalArgumentException(); 
-		}	
-		
-		
+		if(data.get("c") != null) {
+			c = new Vector2D(data.getJSONArray("c").getDouble(0), data.getJSONArray("c").getDouble(1));
+		}
+		else {
+			c = new Vector2D();
+		}
+		if(data.get("g") != null) {
+			g = data.getDouble("g");
+		}
+		else {
+			g = 9.81;
+		}
 		//MovingBody(String id, String gid, Vector2D v, Vector2D p, double m)
-		Vector2D c = new Vector2D(data.getJSONArray("c").getDouble(0), data.getJSONArray("c").getDouble(1));
-		Double g = data.getDouble("g");
+		
 		
 		return new MovingTowardsFixedPoint(c, g);
 	}
