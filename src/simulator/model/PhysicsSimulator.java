@@ -23,6 +23,10 @@ public class PhysicsSimulator {
 		}
 	}
 	
+	public PhysicsSimulator(NewtonUniversalGravitation newtonUniversalGravitation, double d) {
+		// TODO Auto-generated constructor stub
+	}
+
 	//Methods
 	public void advance() {
 		
@@ -91,11 +95,11 @@ public class PhysicsSimulator {
 			//LLeno el JSONARRAY
 			//arr.put(b.getState());
 		}*/
-	//	 El orden de los grupos tiene que ser el orden de creación,
+	//	 El orden de los grupos tiene que ser el orden de creaciï¿½n,
 	//	 para esto hay que mantener una lista de identificadores (List<String>) de grupos 
 	//	 porque no hay orden garantizado para las claves del mapa
 		for(String gid: listaGid) {
-			arr.put(mapa.get(gid)); //creo, V get(K clave): Devuelve el valor asociado a la clave (teoría)
+			arr.put(mapa.get(gid)); //creo, V get(K clave): Devuelve el valor asociado a la clave (teorï¿½a)
 		}
 		
 		obj.put("groups", arr);

@@ -10,7 +10,7 @@ public class NewtonUniversalGravitation implements ForceLaws{
 	private double G;
 	
 	public NewtonUniversalGravitation (double G) {
-		if(G < 0) {
+		if(G <= 0) {
 			throw new IllegalArgumentException();
 			 //lanzar una excepción de tipo IllegalArgumentException
 													// si el valor de G no es positivo
@@ -35,8 +35,9 @@ public class NewtonUniversalGravitation implements ForceLaws{
 					
 				}
 				bi.addForce((bi.getPosition().minus(bj.getPosition())).scale(f));
+				
 			}
-			
+			System.out.println(bi);
 		}
 	}
 	

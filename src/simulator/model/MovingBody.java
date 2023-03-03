@@ -6,9 +6,27 @@ public class MovingBody extends Body{
 
 	protected Vector2D a; //aceleracion //creo que iria como atributo
 	
-	public MovingBody(String id, String gid, Vector2D v, Vector2D p, double m) throws IllegalArgumentException {
-		super(id, gid, v, p, m);
-		// TODO Auto-generated constructor stub
+	public MovingBody(String id, String gid, Vector2D p, Vector2D v, double m) throws IllegalArgumentException {
+		super(id,gid,p,v,m);
+		if(id != null && gid != null && v != null && p != null) {
+			if(id.trim().length()>0)
+				this.id = id;
+			else
+				throw new IllegalArgumentException();
+			if(gid.trim().length()>0)
+				this.gid = gid;
+			else
+				throw new IllegalArgumentException();//entonces, si esto se lanza, lo que sigue de codigo no se ejecuta y pasa al catch
+			this.v = v;
+			this.f = new Vector2D();
+			this.p = p;
+			if(m > 0)
+				this.m = m;
+			else
+				throw new IllegalArgumentException();
+		}
+		else
+			throw new IllegalArgumentException();
 	}
 
 	@Override

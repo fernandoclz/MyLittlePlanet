@@ -10,7 +10,7 @@ public class MovingTowardsFixedPoint implements ForceLaws{
 	double g; //aceleracion
 	
 	public MovingTowardsFixedPoint (Vector2D c, double g){
-		if (c == null || g < 0) {
+		if (c == null || g <= 0) {
 			throw new IllegalArgumentException();
 		}
 		else {
@@ -26,6 +26,7 @@ public class MovingTowardsFixedPoint implements ForceLaws{
 		for(Body b: bs) {
 			d = c.minus(b.getPosition());
 			b.f = d.scale(b.getMass()*g);
+			System.out.println(b.f);
 		}
 	}
 }

@@ -17,8 +17,8 @@ public abstract class Body {
 	protected Vector2D p;
 	protected double m;
 	
-	protected Body (String id, String gid, Vector2D v, Vector2D p, double m) throws IllegalArgumentException{ //protected segun uml
-		try {
+	protected Body (String id, String gid, Vector2D p, Vector2D v, double m) throws IllegalArgumentException{ //protected segun uml
+
 			/* lanzar una excepción del tipo IllegalArgumentException :
 		 	 1. cualquier parámetro es null
 		 	 if (id == null || gid == null || v == null, || p == null || m == null){
@@ -27,33 +27,31 @@ public abstract class Body {
 			 2. gid.trim().length()>0
 			 3. m < 0
 		*/
-			if(id != null && gid != null && v != null && p != null) {
-				this.id = id;
-				if(gid.trim().length()>0)
-					this.gid = gid;
-				else
-					throw new NullPointerException(); //entonces, si esto se lanza, lo que sigue de codigo no se ejecuta y pasa al catch
-				this.v = v;
-				this.f = new Vector2D();
-				this.p = p;
-				if(m >= 0)
-					this.m = m;
-				else
-					throw new NullPointerException();
-			}
+		if(id != null && gid != null && v != null && p != null) {
+			this.id = id;
+			if(gid.trim().length()>0)
+				this.gid = gid;
 			else
-				throw new NullPointerException();
+				throw new IllegalArgumentException();//entonces, si esto se lanza, lo que sigue de codigo no se ejecuta y pasa al catch
+			this.v = v;
+			this.f = new Vector2D();
+			this.p = p;
+			if(m > 0)
+				this.m = m;
+			else
+				throw new IllegalArgumentException();
 		}
-		catch(NullPointerException e) {
-			throw new IllegalArgumentException(e);
-		}
+		else
+			throw new IllegalArgumentException();
+		
+		
 	}
  
 	public String getId() {  //devuelve el identificador del cuerpo
 		return id;		
 	}
 	
-	public String getGid() {		//devuelve el identificador del grupo al que pertenece el cuerpo.
+	public String getgId() {		//devuelve el identificador del grupo al que pertenece el cuerpo.
 		return gid;    
 	}
 	
@@ -73,12 +71,12 @@ public abstract class Body {
 		return m;			
 	}
 	
-	protected void addForce(Vector2D f) {// a�ade la fuerza f al vector de fuerza del cuerpo (usando el m�todo plus de la clase Vector2D).
-		this.f.plus(f);
+	void addForce(Vector2D f) {// a�ade la fuerza f al vector de fuerza del cuerpo (usando el m�todo plus de la clase Vector2D).
+		this.f = this.f.plus(f);
 	}
 	
-	protected void resetForce(){   
-		f.scale(0);				 // pone el valor del vector de fuerza a (0, 0) 
+	void resetForce(){   
+		f = new Vector2D();				 // pone el valor del vector de fuerza a (0, 0) 
 	}
 	
 	abstract void advance(double dt);  //mueve el cuerpo durante dt segundos (las implementaciones est�n el las sub-clases).
@@ -86,12 +84,12 @@ public abstract class Body {
 	public JSONObject getState() {   //devuelve la siguiente informacion del cuerpo en formato JSON (como JSONObject): {�id": id, "m": m, "p": ~p, "v": ~v, "f": ~f}
 		
 		JSONObject data = new JSONObject();
-		
-		data.put("id", this.id);
-		data.put("m", this.m);
-		data.put("p", this.p);
-		data.put("v", this.v);
-		data.put("f", this.f);
+
+		data.put("id", id);
+		data.put("m", m);
+		data.put("p", p.asJSONArray());
+		data.put("v", v.asJSONArray());
+		data.put("f", f.asJSONArray());
 		
 		return data;
 	 }
