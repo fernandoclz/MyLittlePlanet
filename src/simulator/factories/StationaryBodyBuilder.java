@@ -26,15 +26,16 @@ public class StationaryBodyBuilder extends Builder<Body>{
 		}	
 		String id;
 		String gid;
-		JSONArray pAux;
 		Vector2D p;
 		Double m;
 		//MovingBody(String id, String gid, Vector2D v, Vector2D p, double m)
 		try {
 		id = data.getString("id");
 		gid = data.getString("gid");
-		pAux = data.getJSONArray("p");
-		p = new Vector2D(pAux.getDouble(0), pAux.getDouble(1));
+		if(data.getJSONArray("p").length()==2)
+			p = new Vector2D(data.getJSONArray("p").getDouble(0), data.getJSONArray("p").getDouble(1));
+		else
+			throw new IllegalArgumentException(); 
 		m = data.getDouble("m");
 		}
 		catch(JSONException e) {

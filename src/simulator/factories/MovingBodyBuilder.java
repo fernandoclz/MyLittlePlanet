@@ -20,13 +20,7 @@ public class MovingBodyBuilder extends Builder<Body>{
 
 	@Override
 	protected Body createInstance(JSONObject data) { //devuelve una instancia de la clase correspondiente (MovingBody)
-		// TODO Auto-generated method stub			 // (una instancia de un subtipo de T)
-		
-		
-		for (String key : data.keySet()) {
-			if(key == null) 
-				throw new IllegalArgumentException(); 
-		}	
+		// TODO Auto-generated method stub			 // (una instancia de un subtipo de T)	
 		
 		
 		String id;
@@ -38,8 +32,15 @@ public class MovingBodyBuilder extends Builder<Body>{
 		try {
 		id = data.getString("id");
 		gid = data.getString("gid");
-		v = new Vector2D(data.getJSONArray("v").getDouble(0), data.getJSONArray("v").getDouble(1));
-		p = new Vector2D(data.getJSONArray("p").getDouble(0), data.getJSONArray("p").getDouble(1));
+		if(data.getJSONArray("v").length()== 2)
+			v = new Vector2D(data.getJSONArray("v").getDouble(0), data.getJSONArray("v").getDouble(1));
+		else {
+			throw new IllegalArgumentException(); 
+		}
+		if(data.getJSONArray("p").length()==2)
+			p = new Vector2D(data.getJSONArray("p").getDouble(0), data.getJSONArray("p").getDouble(1));
+		else
+			throw new IllegalArgumentException(); 
 		m = data.getDouble("m");
 		}
 		catch(JSONException e) {

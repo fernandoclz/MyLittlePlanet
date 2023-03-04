@@ -1,6 +1,8 @@
 package simulator.factories;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,15 +12,22 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 	private Map<String,Builder<T>> _builders; private List<JSONObject> _buildersInfo;
 	public BuilderBasedFactory() {
 	// Create a HashMap for _builders, a LinkedList _buildersInfo // ...
+		_builders = new HashMap<String, Builder<T>>();
+		_buildersInfo = new LinkedList<JSONObject>();
 	}
 	 
 	 public BuilderBasedFactory(List<Builder<T>> builders) { this();
 	// call addBuilder(b) for each builder b in builder
 	// ...
+	 	for(Builder<T> build: builders) {
+	 		this.addBuilder(build);
+	 	}
 	}
 	public void addBuilder(Builder<T> b) { // add and entry ‘‘ b.getTag() −> b’’ to _builders. // ...
 	// add b.getInfo() to _buildersInfo
 	// ...
+		_builders.put(b.getTypeTag(), b);
+		_buildersInfo.add(b.getInfo());
 	}
 	@Override
 	public T createInstance(JSONObject info) {
@@ -30,12 +39,20 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 	// pass to createInstance is : //
 	// info . has("data") ? info . getJSONObject("data") : new getJSONObject()
 	// If no builder is found or thr result is null ...
+	
+	for(Builder<T> build: _builders.values()) {
+		if(build.getInfo().getString("type") == info.getString("type")) {
+			return build.createInstance(info . has("data") ? info . getJSONObject("data") : new JSONObject());
+		}
+	}
+	
+	
 	throw new IllegalArgumentException("Invalid value for createInstance: " + info.toString());
+
 	}
 	@Override
 	public List<JSONObject> getInfo() {
 	return Collections.unmodifiableList(_buildersInfo); 
 	}
 
-}
-
+}	
