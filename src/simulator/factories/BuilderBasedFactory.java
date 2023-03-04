@@ -39,14 +39,11 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 	// pass to createInstance is : //
 	// info . has("data") ? info . getJSONObject("data") : new getJSONObject()
 	// If no builder is found or thr result is null ...
+	String tipo = info.getString("type");
 	
-	for(Builder<T> build: _builders.values()) {
-		if(build.getInfo().getString("type") == info.getString("type")) {
-			return build.createInstance(info . has("data") ? info . getJSONObject("data") : new JSONObject());
-		}
+	if(_builders.containsKey(tipo)) {
+		return _builders.get(tipo).createInstance(info . has("data") ? info . getJSONObject("data") : new JSONObject());
 	}
-	
-	
 	throw new IllegalArgumentException("Invalid value for createInstance: " + info.toString());
 
 	}

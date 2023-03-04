@@ -1,8 +1,6 @@
 package simulator.model;
 
 import java.util.List;
-import simulator.model.Body;
-
 import simulator.misc.Vector2D;
 
 public class NewtonUniversalGravitation implements ForceLaws{

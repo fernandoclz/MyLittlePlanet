@@ -28,7 +28,6 @@ public class MovingBodyBuilder extends Builder<Body>{
 		Vector2D v;
 		Vector2D p;
 		Double m;
-		//MovingBody(String id, String gid, Vector2D v, Vector2D p, double m)
 		try {
 		id = data.getString("id");
 		gid = data.getString("gid");
@@ -46,7 +45,7 @@ public class MovingBodyBuilder extends Builder<Body>{
 		catch(JSONException e) {
 			throw new IllegalArgumentException(); 
 		}
-		return new MovingBody(id, gid, v, p, m);
+		return new MovingBody(id, gid, p, v, m);
 	}
 
 }

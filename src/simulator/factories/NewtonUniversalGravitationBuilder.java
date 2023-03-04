@@ -8,13 +8,13 @@ import simulator.model.NewtonUniversalGravitation;
 public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 
 	public NewtonUniversalGravitationBuilder(String typeTag, String desc) {
-		super("nlug", "law");
+		super(typeTag, desc);
 		// TODO Auto-generated constructor stub
 	}
 
 	public NewtonUniversalGravitationBuilder() {
 		// TODO Auto-generated constructor stub
-		super(null, null);
+		super("nlug", "law");
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 		// TODO Auto-generated method stub
 		Double g = 6.67e10-11;
 		
-		if(data.get("G") != null) {
+		if(data.has("g")) {
 			g = data.getDouble("G");
 		}
 		
