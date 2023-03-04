@@ -42,7 +42,7 @@ public class MovingBody extends Body{
 			a = new Vector2D(); //aceleracion = (0,0)
 		
 		//p = p + v*t + 1/2*a*t^2
-		this.p = this.p.plus(this.v.scale(dt).plus(a.scale(dt*dt*1/2)));
+		this.p = this.p.plus(this.v.scale(dt).plus(a.scale(0.5*dt*dt)));
 		//v = v + a*t
 		this.v = this.v.plus(a.scale(dt));
 	

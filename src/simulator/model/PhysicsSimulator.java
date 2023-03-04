@@ -13,18 +13,15 @@ public class PhysicsSimulator {
 	private Map<String,BodiesGroup> mapa; //? clave : gid, valor: grupo
 	private List<String> listaGid;
 	
-	public PhysicsSimulator (double t, ForceLaws law) { //public PhysicsSimulator ()
+	public PhysicsSimulator (ForceLaws law, double t) throws IllegalArgumentException{ //public PhysicsSimulator ()
 		if(t < 0 || law == null) {
 			throw new IllegalArgumentException();
 		}
 		else {
 			this.t = t; //this.t = 0
 			this.law = law;
+			mapa = new Map();
 		}
-	}
-	
-	public PhysicsSimulator(NewtonUniversalGravitation newtonUniversalGravitation, double d) {
-		// TODO Auto-generated constructor stub
 	}
 
 	//Methods
