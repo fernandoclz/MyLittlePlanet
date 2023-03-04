@@ -42,15 +42,16 @@ public class BodiesGroup {
 	public void setForceLaws(ForceLaws fl) {
 		if(fl != null)
 			this.law = fl;
-		else
-			throw new IllegalArgumentException(); //?
+		
+		
+		throw new IllegalArgumentException();
 		
 	}
 	
 	public void addBody(Body b) throws IllegalArgumentException{ 
 		if(b == null) { //comprobar que no existe ningun otro cuerpo en el
 											//grupo con el mismo identificador
-			throw new IllegalArgumentException(); //?
+			throw new IllegalArgumentException();
 		}
 		for(Body bd : bodies) {
 			if(bd.getId() == b.getId()) {

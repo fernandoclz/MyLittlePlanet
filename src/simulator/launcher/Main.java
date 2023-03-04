@@ -1,5 +1,7 @@
 package simulator.launcher;
 
+import java.util.ArrayList;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -9,9 +11,17 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.json.JSONObject;
 
+import simulator.factories.Builder;
+import simulator.factories.BuilderBasedFactory;
 import simulator.factories.Factory;
+import simulator.factories.MovingBodyBuilder;
+import simulator.factories.MovingTowardsFixedPointBuilder;
+import simulator.factories.NewtonUniversalGravitationBuilder;
+import simulator.factories.NoForceBuilder;
+import simulator.factories.StationaryBodyBuilder;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
+import simulator.model.PhysicsSimulator;
 
 
 public class Main {
@@ -35,7 +45,17 @@ public class Main {
 	private static Factory<ForceLaws> _forceLawsFactory;
 
 	private static void initFactories() {
-
+		ArrayList<Builder<Body>> bodyBuilders = new ArrayList<>();
+		ArrayList<Builder<ForceLaws>> forceLawsFactory = new ArrayList<>();
+		
+		bodyBuilders.add(new MovingBodyBuilder());
+		bodyBuilders.add(new StationaryBodyBuilder());
+		forceLawsFactory.add(new MovingTowardsFixedPointBuilder());
+		forceLawsFactory.add(new NewtonUniversalGravitationBuilder());
+		forceLawsFactory.add(new NoForceBuilder());
+		
+		Factory<Body> _bodyFactory = new BuilderBasedFactory<Body>(bodyBuilders);
+		Factory<ForceLaws> _forceLawsFactory = new BuilderBasedFactory<ForceLaws>(forceLawsFactory);
 	}
 
 	private static void parseArgs(String[] args) {
@@ -53,7 +73,8 @@ public class Main {
 			parseInFileOption(line);
 			parseDeltaTimeOption(line);
 			parseForceLawsOption(line);
-
+			parseOutFileOption(line);
+			parseStepsOption(line);
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
 			//
@@ -93,7 +114,15 @@ public class Main {
 						+ factoryPossibleValues(_forceLawsFactory) + ". Default value: '" + _forceLawsDefaultValue
 						+ "'.")
 				.build());
-
+		
+		// out file
+		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg()
+				.desc(" Output file, where output is written. Default\n value: the standard output.\n")
+				.build());
+		// steps
+		cmdLineOptions.addOption(Option.builder("s").longOpt("steps").hasArg()
+				.desc("An integer representing the number of simulation steps. Default value: " + _stepsDefaultValue + ".")
+				.build());
 		return cmdLineOptions;
 	}
 
@@ -187,8 +216,19 @@ public class Main {
 			throw new ParseException("Invalid force laws: " + fl);
 		}
 	}
+	private static void parseOutFileOption(CommandLine line) throws ParseException{
+		// TODO Auto-generated method stub
 
+	}
+	
+	private static void parseStepsOption(CommandLine line) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 	private static void startBatchMode() throws Exception {
+		PhysicsSimulator simulator = new PhysicsSimulator(_forceLawsInfo,_dtime);
 	}
 
 	private static void start(String[] args) throws Exception {
