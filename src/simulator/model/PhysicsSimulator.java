@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,60 +10,44 @@ import org.json.JSONObject;
 public class PhysicsSimulator {
 
 	private double t;
+	private static double tiempoActual;
 	private ForceLaws law;
 	private Map<String,BodiesGroup> mapa; //? clave : gid, valor: grupo
 	private List<String> listaGid;
 	
 	public PhysicsSimulator (ForceLaws law, double t) throws IllegalArgumentException{ //public PhysicsSimulator ()
-		if(t < 0 || law == null) {
+		if(t < 0 || law == null) 
 			throw new IllegalArgumentException();
-		}
-		else {
+
 			this.t = t; //this.t = 0
+			PhysicsSimulator.tiempoActual  = 0.0;
 			this.law = law;
-			mapa = new Map();
-		}
+			mapa = new LinkedHashMap<String,BodiesGroup>();
+		
 	}
 
 	//Methods
 	public void advance() {
 		
 		for(BodiesGroup b: mapa.values()) {
-			//LLeno el JSONARRAY
 			b.advance(t);
 		}
-		this.t++;  //problema, tienen que ser segundos reales, aqui anadimos 1 por ciclo
+		PhysicsSimulator.tiempoActual += t; 
 	}
 	
 	public void addGroup(String id) { //anade un nuevo grupo con identificador
 										//id al mapa de grupos
-		for(BodiesGroup b: mapa.values()) {
-			//LLeno el JSONARRAY
-			if(id == b.getId()) {
-				throw new IllegalArgumentException();
-			}
+		if(mapa.containsKey(id)) {
+			throw new IllegalArgumentException();
 		}
 		
 		//Si tira la excepcion esto no se ejecuta
-		mapa.put(id, new BodiesGroup());
-		// anhadir leyes fisicas
-		setForceLaws(id, law);
+		mapa.put(id, new BodiesGroup(id, law));
 	}
 	
 	public void addBody (Body b) {
 		
-		boolean existe = false;
-		
-		for(BodiesGroup bg: mapa.values()) {
-			//Corregido: Excepcion si no existe un grupo con el mismo id
-			
-			if(bg.getId() == b.getId()) {
-				bg.addBody(b);
-				existe = true;
-			}
-		}
-		
-		if(!existe) {
+		if(!mapa.containsKey(b.getgId())) {
 			throw new IllegalArgumentException();
 		}
 	}

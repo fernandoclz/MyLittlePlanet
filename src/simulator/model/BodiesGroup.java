@@ -77,7 +77,6 @@ public class BodiesGroup {
 				b.advance(dt);
 			else
 				throw new IllegalArgumentException(); //?
-			//quito el if y el else y pongo b.advance(dt);
 		}
 		
 	}
