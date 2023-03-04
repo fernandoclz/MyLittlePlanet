@@ -42,9 +42,8 @@ public class BodiesGroup {
 	public void setForceLaws(ForceLaws fl) {
 		if(fl != null)
 			this.law = fl;
-		
-		
-		throw new IllegalArgumentException();
+		else
+			throw new IllegalArgumentException();
 		
 	}
 	
