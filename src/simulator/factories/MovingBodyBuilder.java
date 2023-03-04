@@ -1,6 +1,7 @@
 package simulator.factories;
 
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.misc.Vector2D;
@@ -28,13 +29,22 @@ public class MovingBodyBuilder extends Builder<Body>{
 		}	
 		
 		
+		String id;
+		String gid;
+		Vector2D v;
+		Vector2D p;
+		Double m;
 		//MovingBody(String id, String gid, Vector2D v, Vector2D p, double m)
-		String id = data.getString("id");
-		String gid = data.getString("gid");
-		Vector2D v = new Vector2D(data.getJSONArray("v").getDouble(0), data.getJSONArray("v").getDouble(1));
-		Vector2D p = new Vector2D(data.getJSONArray("p").getDouble(0), data.getJSONArray("p").getDouble(1));
-		Double m = data.getDouble("m");
-		
+		try {
+		id = data.getString("id");
+		gid = data.getString("gid");
+		v = new Vector2D(data.getJSONArray("v").getDouble(0), data.getJSONArray("v").getDouble(1));
+		p = new Vector2D(data.getJSONArray("p").getDouble(0), data.getJSONArray("p").getDouble(1));
+		m = data.getDouble("m");
+		}
+		catch(JSONException e) {
+			throw new IllegalArgumentException(); 
+		}
 		return new MovingBody(id, gid, v, p, m);
 	}
 

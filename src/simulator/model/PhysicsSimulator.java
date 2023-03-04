@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class PhysicsSimulator {
 			PhysicsSimulator.tiempoActual  = 0.0;
 			this.law = law;
 			mapa = new LinkedHashMap<String,BodiesGroup>();
-		
+			listaGid = new ArrayList<>();
 	}
 
 	//Methods
@@ -43,6 +44,7 @@ public class PhysicsSimulator {
 		
 		//Si tira la excepcion esto no se ejecuta
 		mapa.put(id, new BodiesGroup(id, law));
+		listaGid.add(id);
 	}
 	
 	public void addBody (Body b) {
@@ -50,6 +52,8 @@ public class PhysicsSimulator {
 		if(!mapa.containsKey(b.getgId())) {
 			throw new IllegalArgumentException();
 		}
+		
+		mapa.get(b.getgId()).addBody(b);
 	}
 	
 	public void setForceLaws (String id, ForceLaws fl) {
@@ -72,19 +76,18 @@ public class PhysicsSimulator {
 		JSONObject obj = new JSONObject();
 		JSONArray arr = new JSONArray();
 		
-		obj.put("time", t);
+		obj.put("time", tiempoActual);
 		/*for(BodiesGroup b: mapa.values()) { 
 			//LLeno el JSONARRAY
 			//arr.put(b.getState());
 		}*/
-	//	 El orden de los grupos tiene que ser el orden de creaci�n,
-	//	 para esto hay que mantener una lista de identificadores (List<String>) de grupos 
-	//	 porque no hay orden garantizado para las claves del mapa
+
 		for(String gid: listaGid) {
-			arr.put(mapa.get(gid)); //creo, V get(K clave): Devuelve el valor asociado a la clave (teor�a)
+			arr.put(mapa.get(gid).getState()); 
 		}
 		
 		obj.put("groups", arr);
+		
 		return obj;
 	}
 	

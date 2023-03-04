@@ -32,7 +32,6 @@ public class BodiesGroup {
 		this.id = id;
 		this.law = law;
 		bodies = new ArrayList<>();
-		//falta exceptions
 	}
 	
 	//Methods
@@ -62,21 +61,21 @@ public class BodiesGroup {
 	}
 	
 	public void advance(double dt) throws IllegalArgumentException{
-		
-		/*
-		 if(dt < 0)
-		 	throw new IllegalArgumentException(); //?
-		 */
+
+		if(dt <= 0) {
+			throw new IllegalArgumentException(); //?
+		}
 		for(Body b : bodies) {
 			//1. Llama al metodo resetForce de todos los cuerpos
 			b.resetForce();
+		}
 			//2. Llama al metodo apply de las leyes de fuerza
-			law.apply(bodies);
+		law.apply(bodies);
 			//3. llama a advance(dt) para cada cuerpo, si dt no es positivo lanza excepcion
+		for(Body b : bodies) {
+
 			if(dt > 0)
 				b.advance(dt);
-			else
-				throw new IllegalArgumentException(); //?
 		}
 		
 	}
@@ -88,7 +87,7 @@ public class BodiesGroup {
 		obj.put("id", this.id);
 		for(Body b: bodies) {
 			//LLeno el JSONARRAY
-			arr.put(b);
+			arr.put(b.getState());
 		}
 		obj.put("bodies", arr);
 		return obj;

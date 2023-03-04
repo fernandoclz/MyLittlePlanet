@@ -1,5 +1,7 @@
 package simulator.factories;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.misc.Vector2D;
@@ -17,18 +19,27 @@ public class StationaryBodyBuilder extends Builder<Body>{
 	}
 
 	@Override
-	protected Body createInstance(JSONObject data) {
+	protected Body createInstance(JSONObject data) throws IllegalArgumentException{
 		for (String key : data.keySet()) {
 			if(key == null) 
 				throw new IllegalArgumentException(); 
 		}	
-		
-		
+		String id;
+		String gid;
+		JSONArray pAux;
+		Vector2D p;
+		Double m;
 		//MovingBody(String id, String gid, Vector2D v, Vector2D p, double m)
-		String id = data.getString("id");
-		String gid = data.getString("gid");
-		Vector2D p = new Vector2D(data.getJSONArray("p").getDouble(0), data.getJSONArray("p").getDouble(1));
-		Double m = data.getDouble("m");
+		try {
+		id = data.getString("id");
+		gid = data.getString("gid");
+		pAux = data.getJSONArray("p");
+		p = new Vector2D(pAux.getDouble(0), pAux.getDouble(1));
+		m = data.getDouble("m");
+		}
+		catch(JSONException e) {
+			throw new IllegalArgumentException(); 
+		}
 		
 		return new StationaryBody(id, gid, p, m);
 	}
