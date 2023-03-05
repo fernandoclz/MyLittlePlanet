@@ -218,12 +218,22 @@ public class Main {
 	}
 	private static void parseOutFileOption(CommandLine line) throws ParseException{
 		// TODO Auto-generated method stub
-
+		_outFile = line.getOptionValue("o");
+		if (_outFile == null) {
+			throw new ParseException("In batch mode an output file of bodies is required");
+		}
 	}
 	
-	private static void parseStepsOption(CommandLine line) {
+	private static void parseStepsOption(CommandLine line) throws ParseException {
 		// TODO Auto-generated method stub
-		
+		String steps = line.getOptionValue("s", _stepsDefaultValue.toString());
+		try {
+			_steps = Integer.parseInt(steps);
+			assert(_steps > 0);
+		}
+		catch(Exception e){
+			throw new ParseException("Invalid steps value: " + steps);
+		}
 	}
 	
 	
