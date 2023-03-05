@@ -23,20 +23,19 @@ public class NewtonUniversalGravitation implements ForceLaws{
 		double mul = 0;
 		Vector2D dir;
 		for(Body bi: bs) {
+			Vector2D force = new Vector2D();
 			for(Body bj: bs) {
 				f = 0;
-				if(bi.getPosition().distanceTo(bj.getPosition()) == 0 && bi != bj){
-					
-				}
-				else if (bi.getPosition().distanceTo(bj.getPosition()) > 0 && bi != bj) {
+				if (bi.getPosition().distanceTo(bj.getPosition()) > 0 && bi != bj) {
 					mul = G * bi.getMass() * bj.getMass();
 					f = mul/(bi.getPosition().distanceTo(bj.getPosition()) * bi.getPosition().distanceTo(bj.getPosition()));
 					
 				}
 				dir = bj.getPosition().minus(bi.getPosition()).direction();
-				bi.addForce(dir.scale(f));
+				force = force.plus(dir.scale(f));
 				
 			}
+			bi.setForce(force);
 		}
 	}
 	

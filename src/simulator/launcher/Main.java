@@ -1,5 +1,9 @@
 package simulator.launcher;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import org.apache.commons.cli.CommandLine;
@@ -11,6 +15,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.json.JSONObject;
 
+import simulator.control.Controller;
 import simulator.factories.Builder;
 import simulator.factories.BuilderBasedFactory;
 import simulator.factories.Factory;
@@ -50,12 +55,13 @@ public class Main {
 		
 		bodyBuilders.add(new MovingBodyBuilder());
 		bodyBuilders.add(new StationaryBodyBuilder());
+		
 		forceLawsFactory.add(new MovingTowardsFixedPointBuilder());
 		forceLawsFactory.add(new NewtonUniversalGravitationBuilder());
 		forceLawsFactory.add(new NoForceBuilder());
 		
-		Factory<Body> _bodyFactory = new BuilderBasedFactory<Body>(bodyBuilders);
-		Factory<ForceLaws> _forceLawsFactory = new BuilderBasedFactory<ForceLaws>(forceLawsFactory);
+		_bodyFactory = new BuilderBasedFactory<Body>(bodyBuilders);
+		_forceLawsFactory = new BuilderBasedFactory<ForceLaws>(forceLawsFactory);
 	}
 
 	private static void parseArgs(String[] args) {
@@ -238,7 +244,14 @@ public class Main {
 	
 	
 	private static void startBatchMode() throws Exception {
-		PhysicsSimulator simulator = new PhysicsSimulator(_forceLawsInfo,_dtime);
+		InputStream instream = new FileInputStream(_inFile);
+		OutputStream outstream = new FileOutputStream(_outFile);
+		ForceLaws fl = _forceLawsFactory.createInstance(_forceLawsInfo);
+		PhysicsSimulator sim = new PhysicsSimulator(fl, _dtime);
+		Controller ctrl = new Controller(sim, _forceLawsFactory, _bodyFactory);
+		
+		ctrl.loadData(instream);
+		ctrl.run(_steps, outstream);
 	}
 
 	private static void start(String[] args) throws Exception {

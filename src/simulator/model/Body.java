@@ -17,18 +17,14 @@ public abstract class Body {
 	protected Vector2D p;
 	protected double m;
 	
-	protected Body (String id, String gid, Vector2D p, Vector2D v, double m) throws IllegalArgumentException{ //protected segun uml
+	protected Body (String id, String gid, Vector2D p, Vector2D v, double m){ //protected segun uml
 
-			/* lanzar una excepción del tipo IllegalArgumentException :
-		 	 1. cualquier parámetro es null
-		 	 if (id == null || gid == null || v == null, || p == null || m == null){
-		 	 	throw new NullPointerException();
-		 	 }
-			 2. gid.trim().length()>0
-			 3. m < 0
-		*/
+			
 		if(id != null && gid != null && v != null && p != null) {
-			this.id = id;
+			if(id.trim().length()>0)
+				this.id = id;
+			else
+				throw new IllegalArgumentException();
 			if(gid.trim().length()>0)
 				this.gid = gid;
 			else
@@ -59,12 +55,24 @@ public abstract class Body {
 		return v;		
 	}
 	
+	public void setVelocity(Vector2D v) {
+		this.v = v;
+	}
+	
 	public Vector2D getForce(){   // devuelve el vector de fuerza.
 		return f;			
 	}
 	
+	public void setForce(Vector2D f) {
+		this.f = f;
+	}
+	
 	public Vector2D getPosition() {   // devuelve el vector de posici�n.
 		return p;		
+	}
+	
+	public void setPosition(Vector2D p) {
+		this.p = p;
 	}
 	
 	public double getMass() {   // devuelve la masa del cuerpo.

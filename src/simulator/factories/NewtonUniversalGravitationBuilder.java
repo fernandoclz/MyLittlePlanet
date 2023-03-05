@@ -20,14 +20,14 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 	@Override
 	protected ForceLaws createInstance(JSONObject data) {
 		// TODO Auto-generated method stub
-		Double g = 6.67e10-11;
+		Double g = 6.67E-11;
 		
-		if(data.has("g")) {
+		if(data.has("G")) {
 			g = data.getDouble("G");
 		}
 		
 		
-		return new NewtonUniversalGravitation(g); //mentira, está bien hecho pero es mentira
+		return new NewtonUniversalGravitation(g); 
 	}
 
 }

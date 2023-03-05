@@ -60,11 +60,10 @@ public class PhysicsSimulator {
 		boolean existe = false;
 		
 		//Corregido: Excepcion si no existe un grupo con el mismo id
-		for(BodiesGroup b: mapa.values()) {
-			if(b.getId() == id){
-				b.setForceLaws(fl);
-				existe = true;
-			}
+		
+		if(mapa.containsKey(id)){
+			mapa.put(id, mapa.get(id)).setForceLaws(fl);;
+			existe = true;
 		}
 		
 		if(!existe) {

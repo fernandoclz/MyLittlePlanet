@@ -24,7 +24,7 @@ public class MovingTowardsFixedPoint implements ForceLaws{
 		Vector2D d;
 		for(Body b: bs) {
 			d = c.minus(b.getPosition()).direction();
-			b.f = d.scale(b.getMass()*g);
+			b.setForce(d.scale(b.getMass()*g));
 		}
 	}
 }
