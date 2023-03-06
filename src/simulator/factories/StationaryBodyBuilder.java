@@ -14,7 +14,6 @@ public class StationaryBodyBuilder extends Builder<Body>{
 	}
 	public StationaryBodyBuilder(String typeTag, String desc) {
 		super(typeTag, desc);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -27,8 +26,7 @@ public class StationaryBodyBuilder extends Builder<Body>{
 		String gid;
 		Vector2D p;
 		Double m;
-		//MovingBody(String id, String gid, Vector2D v, Vector2D p, double m)
-		try {
+		try {													//Si alguna key es null o no contiene un tipo aceptado, tira JSONException
 		id = data.getString("id");
 		gid = data.getString("gid");
 		if(data.getJSONArray("p").length()==2)

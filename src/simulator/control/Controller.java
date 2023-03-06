@@ -3,7 +3,6 @@ package simulator.control;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -58,24 +57,18 @@ public class Controller {
     }
 
     public void run(int n, OutputStream out) { //n = num de pasos
-//        JSONObject jsonOut = new JSONObject();
-        JSONArray arr = new JSONArray();
+
         PrintStream p = new PrintStream(out);
 
         p.println("{");
         p.println("\"states\": [");
-        //estado inicial s0, se muestra tambien si n < 1
-      //  arr.put(simulator.getState());
 
         p.println(simulator.toString());
-        for(int i = 1; i < n; i++) { //estados del 1 hasta n
+        for(int i = 0; i < n; i++) { 
             simulator.advance();
-           // arr.put(simulator.getState());
             p.println("," +simulator.toString());
         }
-
-//        jsonOut.put("states", arr);
-       // System.out.println(jsonOut);
+        
         p.println("]");
         p.println("}");
 

@@ -17,7 +17,7 @@ public abstract class Body {
 	protected Vector2D p;
 	protected double m;
 	
-	protected Body (String id, String gid, Vector2D p, Vector2D v, double m){ //protected segun uml
+	protected Body (String id, String gid, Vector2D p, Vector2D v, double m){ 
 
 			
 		if(id != null && gid != null && v != null && p != null) {
@@ -28,7 +28,7 @@ public abstract class Body {
 			if(gid.trim().length()>0)
 				this.gid = gid;
 			else
-				throw new IllegalArgumentException();//entonces, si esto se lanza, lo que sigue de codigo no se ejecuta y pasa al catch
+				throw new IllegalArgumentException();
 			this.v = v;
 			this.f = new Vector2D();
 			this.p = p;
@@ -106,5 +106,4 @@ public abstract class Body {
 		return getState().toString(); //devuelve getState().toString().
 	}
 	
-	//hashCode ? (uml)
 }

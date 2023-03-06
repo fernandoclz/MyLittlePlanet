@@ -28,7 +28,7 @@ public class MovingBodyBuilder extends Builder<Body>{
 		Vector2D v;
 		Vector2D p;
 		Double m;
-		try {
+		try {                                                   //Si alguna key es null o no contiene un tipo aceptado, tira JSONException
 		id = data.getString("id");
 		gid = data.getString("gid");
 		if(data.getJSONArray("v").length()== 2)

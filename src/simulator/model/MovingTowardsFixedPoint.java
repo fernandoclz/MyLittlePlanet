@@ -20,7 +20,6 @@ public class MovingTowardsFixedPoint implements ForceLaws{
 
 	@Override
 	public void apply(List<Body> bs) {
-		// TODO Auto-generated method stub
 		Vector2D d;
 		for(Body b: bs) {
 			d = c.minus(b.getPosition()).direction();

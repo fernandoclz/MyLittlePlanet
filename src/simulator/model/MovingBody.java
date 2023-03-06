@@ -11,8 +11,7 @@ public class MovingBody extends Body{
 
 	@Override
 	void advance(double dt) {
-		// TODO Auto-generated method stub
-		Vector2D a = new Vector2D(); //aceleracion //creo que iria como atributo
+		Vector2D a = new Vector2D(); //aceleracion
 		//calculo aceleracion
 		if(m != 0) {
 			//a = f/m
@@ -26,7 +25,6 @@ public class MovingBody extends Body{
 		this.p = this.p.plus(this.v.scale(dt).plus(a.scale(0.5*dt*dt)));
 		//v = v + a*t
 		this.v = this.v.plus(a.scale(dt));
-	
 	}
 
 }

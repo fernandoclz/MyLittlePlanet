@@ -9,7 +9,11 @@ import java.util.Map;
 import org.json.JSONObject;
 
 public class BuilderBasedFactory<T> implements Factory<T> {
-	private Map<String,Builder<T>> _builders; private List<JSONObject> _buildersInfo;
+	private Map<String,Builder<T>> _builders; 
+	private List<JSONObject> _buildersInfo;
+	
+	
+	
 	public BuilderBasedFactory() {
 	// Create a HashMap for _builders, a LinkedList _buildersInfo // ...
 		_builders = new HashMap<String, Builder<T>>();

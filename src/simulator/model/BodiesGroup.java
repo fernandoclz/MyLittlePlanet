@@ -54,7 +54,7 @@ public class BodiesGroup {
 		}
 		for(Body bd : bodies) {
 			if(bd.getId() == b.getId()) {
-				throw new IllegalArgumentException(); //?
+				throw new IllegalArgumentException(); 
 			}
 		}
 			bodies.add(b); 
@@ -63,7 +63,7 @@ public class BodiesGroup {
 	public void advance(double dt) throws IllegalArgumentException{
 
 		if(dt <= 0) {
-			throw new IllegalArgumentException(); //?
+			throw new IllegalArgumentException(); 
 		}
 		for(Body b : bodies) {
 			//1. Llama al metodo resetForce de todos los cuerpos

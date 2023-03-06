@@ -13,10 +13,10 @@ public class PhysicsSimulator {
 	private double t;
 	private static double tiempoActual;
 	private ForceLaws law;
-	private Map<String,BodiesGroup> mapa; //? clave : gid, valor: grupo
+	private Map<String,BodiesGroup> mapa; 
 	private List<String> listaGid;
 	
-	public PhysicsSimulator (ForceLaws law, double t) throws IllegalArgumentException{ //public PhysicsSimulator ()
+	public PhysicsSimulator (ForceLaws law, double t) throws IllegalArgumentException{ 
 		if(t < 0 || law == null) 
 			throw new IllegalArgumentException();
 
@@ -42,7 +42,7 @@ public class PhysicsSimulator {
 			throw new IllegalArgumentException();
 		}
 		
-		//Si tira la excepcion esto no se ejecuta
+
 		mapa.put(id, new BodiesGroup(id, law));
 		listaGid.add(id);
 	}
@@ -59,7 +59,6 @@ public class PhysicsSimulator {
 	public void setForceLaws (String id, ForceLaws fl) {
 		boolean existe = false;
 		
-		//Corregido: Excepcion si no existe un grupo con el mismo id
 		
 		if(mapa.containsKey(id)){
 			mapa.put(id, mapa.get(id)).setForceLaws(fl);;
@@ -71,15 +70,11 @@ public class PhysicsSimulator {
 		}
 	}
 	
-	public JSONObject getState() {   //corregido
+	public JSONObject getState() {  
 		JSONObject obj = new JSONObject();
 		JSONArray arr = new JSONArray();
 		
 		obj.put("time", tiempoActual);
-		/*for(BodiesGroup b: mapa.values()) { 
-			//LLeno el JSONARRAY
-			//arr.put(b.getState());
-		}*/
 
 		for(String gid: listaGid) {
 			arr.put(mapa.get(gid).getState()); 

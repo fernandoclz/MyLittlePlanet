@@ -13,14 +13,12 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws>{
 	}
 	public MovingTowardsFixedPointBuilder(String typeTag, String desc) {
 		super(typeTag, desc);
-		// TODO Auto-generated constructor stub
 	}
 	@Override
 	protected ForceLaws createInstance(JSONObject data) {
 		
 		Vector2D c ;
 		Double g ;
-		// TODO Auto-generated method stub
 		if(data.has("c")) {
 			c = new Vector2D(data.getJSONArray("c").getDouble(0), data.getJSONArray("c").getDouble(1));
 		}
@@ -32,9 +30,7 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws>{
 		}
 		else {
 			g = 9.81;
-		}
-		//MovingBody(String id, String gid, Vector2D v, Vector2D p, double m)
-		
+		}		
 		
 		return new MovingTowardsFixedPoint(c, g);
 	}

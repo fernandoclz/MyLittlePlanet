@@ -18,7 +18,6 @@ public class NewtonUniversalGravitation implements ForceLaws{
 	
 	@Override
 	public void apply(List<Body> bs) { //cambia
-		// TODO Auto-generated method stub
 		double f = 0;
 		double mul = 0;
 		Vector2D dir;
