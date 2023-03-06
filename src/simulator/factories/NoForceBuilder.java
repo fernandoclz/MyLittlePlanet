@@ -9,7 +9,7 @@ public class NoForceBuilder extends Builder<ForceLaws>{
 
 	
 	public NoForceBuilder(){
-		super("nf", "force");
+		super("nf", "No force");
 	}
 	public NoForceBuilder(String typeTag, String desc) {
 		super(typeTag, desc);
@@ -19,5 +19,9 @@ public class NoForceBuilder extends Builder<ForceLaws>{
 	protected ForceLaws createInstance(JSONObject data) {
 		return new NoForce();
 	}
-
+	protected JSONObject getData() {
+		JSONObject data = new JSONObject();
+		
+		return data;
+	}
 }

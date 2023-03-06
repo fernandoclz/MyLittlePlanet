@@ -41,5 +41,12 @@ public class StationaryBodyBuilder extends Builder<Body>{
 		
 		return new StationaryBody(id, gid, p, m);
 	}
+	
+	
+	protected JSONObject getData() {
+		JSONObject data = new JSONObject();
+		
+		return data;
+	}
 
 }

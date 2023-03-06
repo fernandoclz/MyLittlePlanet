@@ -12,7 +12,7 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 	}
 
 	public NewtonUniversalGravitationBuilder() {
-		super("nlug", "law");
+		super("nlug", "Newton's law of universal gravitation");
 	}
 
 	@Override
@@ -26,5 +26,11 @@ public class NewtonUniversalGravitationBuilder extends Builder<ForceLaws>{
 		
 		return new NewtonUniversalGravitation(g); 
 	}
-
+	protected JSONObject getData() {
+		JSONObject data = new JSONObject();
+		
+		data.put("G", "the gravitational constant (a number)");
+		
+		return data;
+	}
 }

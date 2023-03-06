@@ -88,4 +88,18 @@ public class PhysicsSimulator {
 	public String toString() {
 		return getState().toString();
 	}
+	
+	public void reset() {
+		mapa.clear();
+		listaGid.clear();
+		PhysicsSimulator.tiempoActual  = 0.0;
+	}
+	
+	public void setDeltaTime(double dt) {
+		if(dt <= 0)
+			throw new IllegalArgumentException();
+		
+		PhysicsSimulator.tiempoActual = dt;
+		
+	}
 }

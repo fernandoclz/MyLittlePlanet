@@ -1,5 +1,7 @@
 package simulator.factories;
 
+import java.util.Collection;
+
 import org.json.JSONObject;
 
 public abstract class Builder<T> {
@@ -22,13 +24,15 @@ public abstract class Builder<T> {
 		JSONObject info = new JSONObject();
 		info.put("type", _typeTag);
 		info.put("desc", _desc);
+		info.put("data", this.getData());
 		return info;
 	}
+
+	protected abstract JSONObject getData();
 
 	@Override
 	public String toString() {
 		return _desc;
 	}
-
 	protected abstract T createInstance(JSONObject data);
 }

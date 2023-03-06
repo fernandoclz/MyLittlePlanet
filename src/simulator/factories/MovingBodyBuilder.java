@@ -47,5 +47,13 @@ public class MovingBodyBuilder extends Builder<Body>{
 		}
 		return new MovingBody(id, gid, p, v, m);
 	}
+	
+	
+	
+	protected JSONObject getData() {
+		JSONObject data = new JSONObject();
+		
+		return data;
+	}
 
 }
