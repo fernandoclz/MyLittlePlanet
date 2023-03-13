@@ -11,9 +11,7 @@ public class NoForceBuilder extends Builder<ForceLaws>{
 	public NoForceBuilder(){
 		super("nf", "No force");
 	}
-	public NoForceBuilder(String typeTag, String desc) {
-		super(typeTag, desc);
-	}
+
 
 	@Override
 	protected ForceLaws createInstance(JSONObject data) {

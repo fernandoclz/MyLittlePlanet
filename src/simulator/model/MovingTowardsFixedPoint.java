@@ -10,7 +10,7 @@ public class MovingTowardsFixedPoint implements ForceLaws{
 	
 	public MovingTowardsFixedPoint (Vector2D c, double g){
 		if (c == null || g <= 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Constructor mtfp");
 		}
 		else {
 			this.c = c;

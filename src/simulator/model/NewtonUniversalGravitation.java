@@ -9,7 +9,7 @@ public class NewtonUniversalGravitation implements ForceLaws{
 	
 	public NewtonUniversalGravitation (double G) {
 		if(G <= 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("NG, g no es positivo"); //mensaje
 			 //lanzar una excepción de tipo IllegalArgumentException
 													// si el valor de G no es positivo
 		}
@@ -36,10 +36,6 @@ public class NewtonUniversalGravitation implements ForceLaws{
 			}
 			bi.setForce(force);
 		}
-	}
-	
-	public String toString() {
-		return "Newton's Universal Gravitation with G=" + G;
 	}
 	
 }

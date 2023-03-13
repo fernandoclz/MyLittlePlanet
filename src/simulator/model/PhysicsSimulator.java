@@ -16,9 +16,9 @@ public class PhysicsSimulator {
 	private Map<String,BodiesGroup> mapa; 
 	private List<String> listaGid;
 	
-	public PhysicsSimulator (ForceLaws law, double t) throws IllegalArgumentException{ 
+	public PhysicsSimulator (ForceLaws law, double t){ 
 		if(t < 0 || law == null) 
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("PS constructor, parametros");
 
 			this.t = t; //this.t = 0
 			PhysicsSimulator.tiempoActual  = 0.0;
@@ -39,7 +39,7 @@ public class PhysicsSimulator {
 	public void addGroup(String id) { //anade un nuevo grupo con identificador
 										//id al mapa de grupos
 		if(mapa.containsKey(id)) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("PS addGroup, no contiene id");
 		}
 		
 
@@ -50,7 +50,7 @@ public class PhysicsSimulator {
 	public void addBody (Body b) {
 		
 		if(!mapa.containsKey(b.getgId())) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("");
 		}
 		
 		mapa.get(b.getgId()).addBody(b);

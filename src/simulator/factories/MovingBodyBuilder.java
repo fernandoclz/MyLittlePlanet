@@ -13,10 +13,7 @@ public class MovingBodyBuilder extends Builder<Body>{
 	public MovingBodyBuilder(){
 		super("mv_body", "body");
 	}
-	public MovingBodyBuilder(String typeTag, String desc) { 
-		super(typeTag, desc);
-		// TODO Auto-generated constructor stub
-	}
+
 
 	@Override
 	protected Body createInstance(JSONObject data) { //devuelve una instancia de la clase correspondiente (MovingBody)
@@ -28,21 +25,17 @@ public class MovingBodyBuilder extends Builder<Body>{
 		Vector2D v;
 		Vector2D p;
 		Double m;
-		try {                                                   //Si alguna key es null o no contiene un tipo aceptado, tira JSONException
-		id = data.getString("id");
-		gid = data.getString("gid");
-		if(data.getJSONArray("v").length()== 2)
+		
+		if(data.has("id") && data.has("gid") && data.has("v") && data.has("p") && data.has("m") && data.getJSONArray("v").length()== 2 && data.getJSONArray("p").length()==2 ) {
+			id = data.getString("id");
+			gid = data.getString("gid");
 			v = new Vector2D(data.getJSONArray("v").getDouble(0), data.getJSONArray("v").getDouble(1));
-		else {
-			throw new IllegalArgumentException(); 
-		}
-		if(data.getJSONArray("p").length()==2)
 			p = new Vector2D(data.getJSONArray("p").getDouble(0), data.getJSONArray("p").getDouble(1));
-		else
-			throw new IllegalArgumentException(); 
-		m = data.getDouble("m");
+			m = data.getDouble("m");
+			
 		}
-		catch(JSONException e) {
+		
+		else {
 			throw new IllegalArgumentException(); 
 		}
 		return new MovingBody(id, gid, p, v, m);

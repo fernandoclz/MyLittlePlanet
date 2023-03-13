@@ -9,15 +9,13 @@ import simulator.model.StationaryBody;
 
 public class StationaryBodyBuilder extends Builder<Body>{
 
-	public StationaryBodyBuilder() {
+	public StationaryBodyBuilder() { //solo este
 		super("st_body", "body");
 	}
-	public StationaryBodyBuilder(String typeTag, String desc) {
-		super(typeTag, desc);
-	}
+
 
 	@Override
-	protected Body createInstance(JSONObject data) throws IllegalArgumentException{
+	protected Body createInstance(JSONObject data) { 
 		for (String key : data.keySet()) {
 			if(key == null) 
 				throw new IllegalArgumentException(); 
@@ -26,23 +24,21 @@ public class StationaryBodyBuilder extends Builder<Body>{
 		String gid;
 		Vector2D p;
 		Double m;
-		try {													//Si alguna key es null o no contiene un tipo aceptado, tira JSONException
-		id = data.getString("id");
-		gid = data.getString("gid");
-		if(data.getJSONArray("p").length()==2)
+		if(data.has("id") && data.has("gid") && data.has("p") && data.has("m") && data.getJSONArray("p").length()==2 ) {
+			id = data.getString("id");
+			gid = data.getString("gid");
 			p = new Vector2D(data.getJSONArray("p").getDouble(0), data.getJSONArray("p").getDouble(1));
-		else
-			throw new IllegalArgumentException(); 
-		m = data.getDouble("m");
+			m = data.getDouble("m");
+			
 		}
-		catch(JSONException e) {
+		
+		else {
 			throw new IllegalArgumentException(); 
 		}
 		
 		return new StationaryBody(id, gid, p, m);
 	}
-	
-	
+	@Override
 	protected JSONObject getData() {
 		JSONObject data = new JSONObject();
 		

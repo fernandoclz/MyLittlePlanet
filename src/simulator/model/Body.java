@@ -24,21 +24,21 @@ public abstract class Body {
 			if(id.trim().length()>0)
 				this.id = id;
 			else
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("Constructor body, id");
 			if(gid.trim().length()>0)
 				this.gid = gid;
 			else
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("Constructor body, gid");
 			this.v = v;
 			this.f = new Vector2D();
 			this.p = p;
 			if(m > 0)
 				this.m = m;
 			else
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("Constructor body, m");
 		}
 		else
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Constructor body, parametro null");
 		
 		
 	}

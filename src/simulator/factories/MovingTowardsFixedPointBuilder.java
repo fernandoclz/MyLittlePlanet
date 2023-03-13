@@ -11,9 +11,7 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws>{
 	public MovingTowardsFixedPointBuilder() {
 		super("mtfp", "force");
 	}
-	public MovingTowardsFixedPointBuilder(String typeTag, String desc) {
-		super(typeTag, desc);
-	}
+
 	@Override
 	protected ForceLaws createInstance(JSONObject data) {
 		

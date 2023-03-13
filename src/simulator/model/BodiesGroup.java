@@ -23,10 +23,10 @@ public class BodiesGroup {
 		//(1) cualquier parámetro es null, (2) el identificador no incluye al menos un carćter que no sea espacio en blanco – usa s.trim().length()>0.
 		
 		if(id == null || law == null) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Constructor bodies group, parametro null");
 		}
 		else if(id.trim().length() == 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Constructor bg, id");
 		}
 		
 		this.id = id;
@@ -43,27 +43,27 @@ public class BodiesGroup {
 		if(fl != null)
 			this.law = fl;
 		else
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("bg setForceLaws, fl = null");
 		
 	}
 	
-	public void addBody(Body b) throws IllegalArgumentException{ 
+	public void addBody(Body b){ 
 		if(b == null) { //comprobar que no existe ningun otro cuerpo en el
 											//grupo con el mismo identificador
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("bg addBody, b = null");
 		}
 		for(Body bd : bodies) {
 			if(bd.getId() == b.getId()) {
-				throw new IllegalArgumentException(); 
+				throw new IllegalArgumentException("bg addBody, body ya existe"); 
 			}
 		}
 			bodies.add(b); 
 	}
 	
-	public void advance(double dt) throws IllegalArgumentException{
+	public void advance(double dt) {
 
 		if(dt <= 0) {
-			throw new IllegalArgumentException(); 
+			throw new IllegalArgumentException("bg, advance"); 
 		}
 		for(Body b : bodies) {
 			//1. Llama al metodo resetForce de todos los cuerpos
