@@ -3,6 +3,7 @@ package simulator.control;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,6 +13,7 @@ import simulator.factories.Factory;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
 import simulator.model.PhysicsSimulator;
+import simulator.model.SimulatorObserver;
 
 
 public class Controller {
@@ -42,6 +44,7 @@ public class Controller {
         if(jsonInupt.has("laws")) {
         	arrL = jsonInupt.getJSONArray("laws");
         }
+        
         JSONArray arrB = jsonInupt.getJSONArray("bodies");
 
         for(int i = 0; i < g.length(); i++) {
@@ -56,21 +59,53 @@ public class Controller {
         }
     }
 
-    public void run(int n, OutputStream out) { //n = num de pasos
+    public void run(int n, OutputStream out) { //n = num de pasos AQUI
+    	//no se ,uestra nada en un OutputStream en la 2ª práctica
+        //PrintStream p = new PrintStream(out);
 
-        PrintStream p = new PrintStream(out);
+      //  p.println("{");
+        //p.println("\"states\": [");
 
-        p.println("{");
-        p.println("\"states\": [");
-
-        p.println(simulator.toString());
+     //   p.println(simulator.toString());
         for(int i = 0; i < n; i++) { 
             simulator.advance();
-            p.println("," +simulator.toString());
+            //p.println("," +simulator.toString()); 
         }
         
-        p.println("]");
-        p.println("}");
+//        p.println("]");
+//        p.println("}");
 
+    }
+    
+    public void reset() {
+    	
+    	simulator.reset();
+    }
+    
+    public void setDeltaTime(double dt) {
+    	
+    	simulator.setDeltaTime(dt);
+    }
+    
+    public void addObserver(SimulatorObserver o) {
+    	
+    	simulator.addObserver(o);
+    }
+    
+    public void removeObserver(SimulatorObserver o) {
+
+    	simulator.removeObserver(o);
+    
+    }
+    
+    public List<JSONObject> getForceLawsInfo(){
+    	
+    	return factoryL.getInfo();
+    }
+    
+    public void setForcesLaws(String gId, JSONObject info) {
+    	
+    	ForceLaws law = factoryL.createInstance(info); //?
+    	simulator.setForceLaws(gId, law); //?
     }
 }
