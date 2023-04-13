@@ -118,11 +118,14 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 		JLabel _stepsL = new JLabel("Steps: ");
 		_toolaBar.add(_stepsL);
 		_stepsSpinner = new JSpinner();
+		_stepsSpinner.setPreferredSize(new Dimension(80,30));
+		_stepsSpinner.setMaximumSize(new Dimension(80,30));
 		_toolaBar.add(_stepsSpinner);
 		
 		JLabel _timeL = new JLabel("Delta-Time: ");
 		_toolaBar.add(_timeL);
 		_timeTextField = new JTextField();
+		_timeTextField.setPreferredSize(new Dimension(80,30));
 		_timeTextField.setMaximumSize(new Dimension(80,30));
 		_toolaBar.add(_timeTextField);
 		
