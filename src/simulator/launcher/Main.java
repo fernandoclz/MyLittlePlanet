@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -27,6 +29,7 @@ import simulator.factories.StationaryBodyBuilder;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
 import simulator.model.PhysicsSimulator;
+import simulator.view.MainWindow;
 
 
 public class Main {
@@ -36,6 +39,7 @@ public class Main {
 	private final static Integer _stepsDefaultValue = 150;
 	private final static Double _dtimeDefaultValue = 2500.0;
 	private final static String _forceLawsDefaultValue = "nlug";
+	private final static String _modeDefaultValue = "gui";
 
 	// some attributes to stores values corresponding to command-line parameters
 	//
@@ -43,6 +47,7 @@ public class Main {
 	private static Double _dtime = null;
 	private static String _inFile = null;
 	private static String _outFile = null;
+	private static String _mode = null;
 	private static JSONObject _forceLawsInfo = null;
 
 	// factories
@@ -81,6 +86,7 @@ public class Main {
 			parseForceLawsOption(line);
 			parseOutFileOption(line);
 			parseStepsOption(line);
+			parseExecutionMode(line);
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
 			//
@@ -99,6 +105,7 @@ public class Main {
 
 	}
 
+
 	private static Options buildOptions() {
 		Options cmdLineOptions = new Options();
 
@@ -112,6 +119,11 @@ public class Main {
 		cmdLineOptions.addOption(Option.builder("dt").longOpt("delta-time").hasArg()
 				.desc("A double representing actual time, in seconds, per simulation step. Default value: "
 						+ _dtimeDefaultValue + ".")
+				.build());
+		//execution-mode
+		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg().desc("Execution Mode. Possible values: 'batch' (Batch\n"
+				+ "mode), 'gui' (Graphical User Interface mode).\n"
+				+ "Default value: 'gui'.")
 				.build());
 
 		// force laws
@@ -160,9 +172,6 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null) {
-			throw new ParseException("In batch mode an input file of bodies is required");
-		}
 	}
 
 	private static void parseDeltaTimeOption(CommandLine line) throws ParseException {
@@ -225,7 +234,7 @@ public class Main {
 	private static void parseOutFileOption(CommandLine line) throws ParseException{
 		// TODO Auto-generated method stub
 		_outFile = line.getOptionValue("o");
-		if (_outFile == null) {
+		if (_outFile == null && _mode == "batch") {
 			throw new ParseException("In batch mode an output file of bodies is required");
 		}
 	}
@@ -242,7 +251,24 @@ public class Main {
 		}
 	}
 	
+	private static void parseExecutionMode(CommandLine line) throws ParseException {
+		_mode = line.getOptionValue("m", _modeDefaultValue);
+		if(!(_mode == "batch" || _mode == "gui")) {
+			throw new ParseException("Invalid mode value");
+		}
+	}
 	
+	private static void startGUIMode() throws Exception{
+		try {
+		InputStream instream = new FileInputStream(_inFile);
+		}catch(Exception e){
+			
+		}
+		ForceLaws fl = _forceLawsFactory.createInstance(_forceLawsInfo);
+		PhysicsSimulator sim = new PhysicsSimulator(fl, _dtime);
+		Controller ctrl = new Controller(sim, _forceLawsFactory, _bodyFactory);
+		SwingUtilities.invokeAndWait(() -> new MainWindow(ctrl));
+	}
 	private static void startBatchMode() throws Exception {
 		InputStream instream = new FileInputStream(_inFile);
 		OutputStream outstream = new FileOutputStream(_outFile);
@@ -253,10 +279,17 @@ public class Main {
 		ctrl.loadData(instream);
 		ctrl.run(_steps, outstream);
 	}
+	
+	
 
 	private static void start(String[] args) throws Exception {
 		parseArgs(args);
-		startBatchMode();
+		if(_mode == "gui") {
+			startGUIMode();
+		}
+		else if(_mode == "batch"){
+			startBatchMode();
+		}
 	}
 
 	public static void main(String[] args) {

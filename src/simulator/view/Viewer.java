@@ -100,9 +100,9 @@ class Viewer extends SimulationViewer {
 			 * paintComponent
 			 * 
 			 * ES: Gestiona las teclas 'j','l','i','m' para sumar 10/-10 a
-			 * _originX/_originY, y luego llame a repaint(). Esto har√° que el punto de
-			 * origen se mueva hacia la izquierda/derecha/arriba/abajo. Vea c√≥mo se calculan
-			 * los valores de _centerX y _centerY en el m√©todo paintComponent
+			 * _originX/_originY, y luego llame a repaint(). Esto har· que el punto de
+			 * origen se mueva hacia la izquierda/derecha/arriba/abajo. Vea cÛmo se calculan
+			 * los valores de _centerX y _centerY en el mÈtodo paintComponent
 			 * 
 			 * TODO
 			 * 
@@ -119,8 +119,8 @@ class Viewer extends SimulationViewer {
 			 * paintComponent
 			 * 
 			 * ES: gestiona la tecla 'h' para cambiar el valor de _showHelp a !_showHelp, y
-			 * luego llame a repaint(). Esto har√° que se muestre/oculte el texto de ayuda -
-			 * ver m√©todo paintComponent
+			 * luego llame a repaint(). Esto har· que se muestre/oculte el texto de ayuda -
+			 * ver mÈtodo paintComponent
 			 * 
 			 * TODO
 			 * 
@@ -143,11 +143,11 @@ class Viewer extends SimulationViewer {
 			 * those that belong to the selected group.
 			 * 
 			 * ES: gestionar la tecla 'g' de manera que haga visible el siguiente grupo.
-			 * Tenga en cuenta que despu√©s del √∫ltimo grupo, se muestran todos los cuerpos.
+			 * Tenga en cuenta que despuÈs del ˙ltimo grupo, se muestran todos los cuerpos.
 			 * Esto se puede hacer modificando _selectedGroupIdx de -1 (todos los grupos) a
 			 * _groups.size()-1 de forma circular. Cuando su valor es -1, _selectedGroup
-			 * ser√≠a nulo, de lo contrario, ser√≠a el id del grupo correspondiente. En el
-			 * m√©todo showBodies, solo dibujar√°s los que pertenecen al grupo seleccionado.
+			 * serÌa nulo, de lo contrario, serÌa el id del grupo correspondiente. En el
+			 * mÈtodo showBodies, solo dibujar·s los que pertenecen al grupo seleccionado.
 			 * 
 			 */
 			@Override
@@ -234,7 +234,7 @@ class Viewer extends SimulationViewer {
 		 * Scaling ratio: ... 
 		 * Selected Group: ...
 		 * 
-		 * ES: completa el m√©todo para que muestre el siguiente texto en la esquina
+		 * ES: completa el mÈtodo para que muestre el siguiente texto en la esquina
 		 * superior izquierda:
 		 * 
 		 * h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit 
@@ -262,9 +262,9 @@ class Viewer extends SimulationViewer {
 		 * ES: Dibuja todos los cuerpos para los que isVisible(b) devuelve 'true' (ver
 		 * isVisible abajo, devuelve 'true' si el cuerpo pertenece al grupo
 		 * seleccionado). Para cada cuerpo, debes dibujar los vectores de velocidad y
-		 * fuerza si _showVectors es 'true'. Usa el m√©todo drawLineWithArrow para
+		 * fuerza si _showVectors es 'true'. Usa el mÈtodo drawLineWithArrow para
 		 * dibujar los vectores. El color del cuerpo 'b' debe ser
-		 * _gColor.get(b.getgId()) -- ver el m√©todo addGroup. Como punto de origen usar
+		 * _gColor.get(b.getgId()) -- ver el mÈtodo addGroup. Como punto de origen usar
 		 * (_centerX,_centerY), y recordar dividir las coordenadas del cuerpo por el
 		 * valor de _scale.
 		 * 
@@ -306,7 +306,7 @@ class Viewer extends SimulationViewer {
 		 * 
 		 * EN: add g to _groups and its bodies to _bodies
 		 *
-		 * ES: a√±adir g a _groups y sus cuerpos a _bodies
+		 * ES: aÒadir g a _groups y sus cuerpos a _bodies
 		 * 
 		 */
 		_gColor.put(g.getId(), _colorGen.nextColor()); // assign color to group
@@ -321,7 +321,7 @@ class Viewer extends SimulationViewer {
 		 * 
 		 *  EN: add b to _bodies
 		 *  
-		 *  ES: a√±adir b a _bodies
+		 *  ES: aÒadir b a _bodies
 		 *  
 		 */
 		autoScale();
@@ -335,7 +335,7 @@ class Viewer extends SimulationViewer {
 		 * 
 		 * EN: clear the group list, bodies list, and the colors map
 		 * 
-		 * ES: borrar (usando el m√©todo clear) la lista de grupos, la lista de cuerpos y
+		 * ES: borrar (usando el mÈtodo clear) la lista de grupos, la lista de cuerpos y
 		 * el mapa de colores
 		 * 
 		 */
@@ -383,4 +383,3 @@ class Viewer extends SimulationViewer {
 	}
 
 }
-*/

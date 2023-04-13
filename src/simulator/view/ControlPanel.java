@@ -1,6 +1,7 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.File;
 import java.util.Map;
 
@@ -8,7 +9,10 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
 import simulator.control.Controller;
@@ -30,6 +34,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 	private JButton _viewerB;
 	private JButton _runB;
 	private JButton _stopB;
+	private JSpinner _stepsSpinner;
+	private JTextField _timeTextField;
 	
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
@@ -62,6 +68,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 			}
 		});
 		_toolaBar.add(_ficherosB);
+		_toolaBar.addSeparator();
 		
 		//ForceLaws Button
 		_forceLawsB = new JButton();
@@ -73,23 +80,51 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 		//Viewer Button
 		_viewerB = new JButton();
 		_viewerB.setToolTipText("Viewer");
-		_viewerB.setIcon(new ImageIcon("resources/icons/physics.png"));
+		_viewerB.setIcon(new ImageIcon("resources/icons/viewer.png"));
 		_viewerB.addActionListener((e) -> Utils.quit(this));
 		_toolaBar.add(_viewerB);
 		
+		_toolaBar.addSeparator();
 		//Run Button
 		_runB = new JButton();
 		_runB.setToolTipText("Start");
 		_runB.setIcon(new ImageIcon("resources/icons/run.png"));
-		_runB.addActionListener((e) -> Utils.quit(this));
+		_runB.addActionListener((e) -> {
+			//1
+			this._ficherosB.setEnabled(false);
+			this._forceLawsB.setEnabled(false);
+			this._viewerB.setEnabled(false);
+			this._runB.setEnabled(false);
+			this._stopped = false;
+			//2
+	//		this._ctrl.setDeltaTime();
+			//3
+		});
 		_toolaBar.add(_runB);
 		
 		//Stop Button
 		_stopB = new JButton();
 		_stopB.setToolTipText("Stop");
 		_stopB.setIcon(new ImageIcon("resources/icons/stop.png"));
-		_stopB.addActionListener((e) -> 
-		_toolaBar.add(_stopB));
+		_stopB.addActionListener((e) -> {
+			this._ficherosB.setEnabled(true);
+			this._forceLawsB.setEnabled(true);
+			this._viewerB.setEnabled(true);
+			this._runB.setEnabled(true);
+			this._stopped = true;
+		});
+		_toolaBar.add(_stopB);
+		
+		JLabel _stepsL = new JLabel("Steps: ");
+		_toolaBar.add(_stepsL);
+		_stepsSpinner = new JSpinner();
+		_toolaBar.add(_stepsSpinner);
+		
+		JLabel _timeL = new JLabel("Delta-Time: ");
+		_toolaBar.add(_timeL);
+		_timeTextField = new JTextField();
+		_timeTextField.setMaximumSize(new Dimension(80,30));
+		_toolaBar.add(_timeTextField);
 		
 		// Quit Button
 		_toolaBar.add(Box.createGlue()); // this aligns the button to the right

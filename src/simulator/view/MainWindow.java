@@ -2,6 +2,9 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -44,29 +47,68 @@ public class MainWindow extends JFrame {
 		
 		// TODO crear la tabla de grupos y añadirla a contentPanel.
 		// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
-//		DefaultTableModel dtm = new DefaultTableModel();
-//		JTable tableG = new JTable(TableModel dfm);
-//		JScrollPane scroll = new JScrollPane(tableG, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-//				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); 
-//		
+		InfoTable tableG = new InfoTable("Groups", new GroupsTableModel(_ctrl));
+		tableG.setPreferredSize(new Dimension(500,250));
+		contentPanel.add(tableG);
 		
 		// TODO crear la tabla de cuerpos y añadirla a contentPanel.
 		// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
+		InfoTable tableC = new InfoTable("Bodies", new BodiesTableModel(_ctrl));
+		tableC.setPreferredSize(new Dimension(500, 250));
+		contentPanel.add(tableC);
 		
 		// TODO llama a Utils.quit(MainWindow.this) en el método windowClosing
 		
-		addWindowListener(null); //cambiar
+		
+		addWindowListener(new WindowListener() {
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Utils.quit(MainWindow.this);
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		}); //cambiar
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); //No hace nada cuando el usuario cierra
 														//la ventana
 		pack();
 		setVisible(true);
 	}
 
-//	private JPanel createSuperiorPanel() {
-//		// TODO Auto-generated method stub
-//		JPanel controlPanel = new JPanel();
-//		
-//		return controlPanel;
-//	}
 
 }
