@@ -17,6 +17,8 @@ import simulator.model.SimulatorObserver;
 public class StatusBar extends JPanel implements SimulatorObserver {
 	
 	// TODO Añadir los atributos necesarios, si hace falta …
+	JLabel dt;
+	JLabel g;
 	
 	StatusBar(Controller ctrl) {
 		initGUI();
@@ -30,8 +32,9 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 		
 		// TODO Crear una etiqueta de tiempo y añadirla al panel
 		JLabel labelT = new JLabel("Time: ");
-		
+		dt = new JLabel("0");
 		this.add(labelT);
+		this.add(dt);
 		
 		JSeparator s = new JSeparator(JSeparator.VERTICAL);
 		s.setPreferredSize(new Dimension(10, 20));
@@ -39,8 +42,9 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 		
 		// TODO Crear la etiqueta de número de grupos y añadirla al panel
 		JLabel labelG = new JLabel("Groups: ");
-		
+		g = new JLabel(" ");
 		this.add(labelG);
+		this.add(g);
 		// TODO Utilizar el siguiente código para añadir un separador vertical
 		//
 		
@@ -52,7 +56,7 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub
-		
+		this.dt.setText("" + time);
 	}
 
 	// TODO el resto de métodos van aquí…
@@ -60,19 +64,21 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	@Override
 	public void onReset(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-		
+		this.g.setText("" + groups.size());
+		this.dt.setText("" + time);
 	}
 
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-		
+		this.g.setText("" + groups.size());
+		this.dt.setText("" + time);
 	}
 
 	@Override
 	public void onGroupAdded(Map<String, BodiesGroup> groups, BodiesGroup g) {
 		// TODO Auto-generated method stub
-		
+		this.g.setText("" + groups.size());
 	}
 
 	@Override
@@ -84,12 +90,10 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	@Override
 	public void onDeltaTimeChanged(double dt) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onForceLawsChanged(BodiesGroup g) {
 		// TODO Auto-generated method stub
-		
 	}
 }

@@ -25,7 +25,7 @@ public class Controller {
     public Controller (PhysicsSimulator sim, Factory<ForceLaws> factoryL, Factory<Body> factoryB) {
 
         if(sim == null || factoryB == null || factoryL == null)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Constructor Controller");
 
         simulator = sim;
         this.factoryB = factoryB;
@@ -59,7 +59,7 @@ public class Controller {
         }
     }
 
-    public void run(int n, OutputStream out) { //n = num de pasos AQUI
+    public void run(int n) { //n = num de pasos AQUI
     	//no se ,uestra nada en un OutputStream en la 2ª práctica
         //PrintStream p = new PrintStream(out);
 

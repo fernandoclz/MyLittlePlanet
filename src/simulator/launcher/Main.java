@@ -277,7 +277,7 @@ public class Main {
 		Controller ctrl = new Controller(sim, _forceLawsFactory, _bodyFactory);
 		
 		ctrl.loadData(instream);
-		ctrl.run(_steps, outstream);
+		ctrl.run(_steps);
 	}
 	
 	

@@ -21,24 +21,45 @@ class GroupsTableModel extends AbstractTableModel implements SimulatorObserver {
 		ctrl.addObserver(this);
 	}
 	
-	// TODO el resto de métodos van aquí …
+	// TODO el resto de mï¿½todos van aquï¿½ ï¿½
 
+	@Override
+	public String getColumnName(int i) {
+		return _header[i];
+	}
+	@Override
+	public boolean isCellEditable(int i, int j) {
+		return false;
+	}
+	
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return _groups.size();
 	}
 
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return _header.length;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		BodiesGroup g = _groups.get(rowIndex);
+		switch(columnIndex) {
+		case 0:
+			return g.getId();
+		case 1:
+			return g.getForceLawsInfo();
+		case 2:
+			String aux = "";
+			for(Body cuerpo: g) {
+				aux = aux + cuerpo.getId() + " ";
+			}
+			return aux;
+		}
+		return g;
 	}
 
 	@Override
@@ -50,25 +71,33 @@ class GroupsTableModel extends AbstractTableModel implements SimulatorObserver {
 	@Override
 	public void onReset(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-		
+		_groups.clear();
+		fireTableStructureChanged();
 	}
 
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
+		_groups = new ArrayList<BodiesGroup>();
 		
+		for(BodiesGroup bg: groups.values()) {
+
+			_groups.add(bg);
+		}
+		fireTableStructureChanged();
 	}
 
 	@Override
 	public void onGroupAdded(Map<String, BodiesGroup> groups, BodiesGroup g) {
 		// TODO Auto-generated method stub
-		
+		_groups.add(g);
+		fireTableStructureChanged();
 	}
 
 	@Override
 	public void onBodyAdded(Map<String, BodiesGroup> groups, Body b) {
 		// TODO Auto-generated method stub
-		
+		fireTableDataChanged();
 	}
 
 	@Override
@@ -80,6 +109,6 @@ class GroupsTableModel extends AbstractTableModel implements SimulatorObserver {
 	@Override
 	public void onForceLawsChanged(BodiesGroup g) {
 		// TODO Auto-generated method stub
-		
+		fireTableDataChanged();
 	}
 }

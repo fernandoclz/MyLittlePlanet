@@ -22,39 +22,70 @@ class BodiesTableModel extends AbstractTableModel implements SimulatorObserver {
 	}
 
 	@Override
+	public String getColumnName(int i) {
+		return _header[i];
+	}
+	@Override
+	public boolean isCellEditable(int i, int j) {
+		return false;
+	}
+	
+	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return _bodies.size();
 	}
 
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return _header.length;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		Body b = _bodies.get(rowIndex);
+		switch(columnIndex) {
+		case 0:
+			return b.getId();
+		case 1:
+			return b.getgId();
+		case 2:
+			return b.getMass();
+		case 3:
+			return b.getVelocity().toString();
+		case 4:
+			return b.getPosition().toString();
+		case 5: 
+			return b.getForce().toString();
+		}
+		return b;
 	}
 
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub
-		
+		fireTableDataChanged();
 	}
 
 	@Override
 	public void onReset(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-		
+		_bodies.clear();
+		fireTableStructureChanged();
 	}
 
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
+		_bodies = new ArrayList<Body>();
 		
+		for(BodiesGroup bg: groups.values()) {
+			for(Body b: bg) {
+				_bodies.add(b);
+			}
+		}
+		fireTableStructureChanged();
 	}
 
 	@Override
@@ -66,7 +97,8 @@ class BodiesTableModel extends AbstractTableModel implements SimulatorObserver {
 	@Override
 	public void onBodyAdded(Map<String, BodiesGroup> groups, Body b) {
 		// TODO Auto-generated method stub
-		
+		_bodies.add(b);
+		fireTableStructureChanged();
 	}
 
 	@Override
@@ -81,5 +113,5 @@ class BodiesTableModel extends AbstractTableModel implements SimulatorObserver {
 		
 	}
 	
-	// TODO el resto de métodos van aquí…
+	// TODO el resto de mï¿½todos van aquï¿½
 }

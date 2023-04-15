@@ -2,7 +2,11 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Map;
 
 import javax.swing.Box;
@@ -14,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
 import simulator.model.BodiesGroup;
@@ -59,12 +65,20 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 		_ficherosB.setToolTipText("Files");
 		_ficherosB.setIcon(new ImageIcon("resources/icons/open.png"));
 		_ficherosB.addActionListener((e) -> {
+			_fc = new JFileChooser("resources/examples/input");
 			int f = _fc.showOpenDialog(Utils.getWindow(this));
 			if(f == JFileChooser.APPROVE_OPTION) { // ha seleccionado un fichero
 				_ctrl.reset();
 				File file = _fc.getSelectedFile();
+				String fileName = file.getAbsolutePath();
 				//carga el fichero seleccionado en el simulador
-				//_ctrl.loadData(file);
+				InputStream inFile = null;
+				try {
+					inFile = new FileInputStream(fileName);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+				}
+				_ctrl.loadData(inFile);
 			}
 		});
 		_toolaBar.add(_ficherosB);
@@ -91,14 +105,16 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 		_runB.setIcon(new ImageIcon("resources/icons/run.png"));
 		_runB.addActionListener((e) -> {
 			//1
-			this._ficherosB.setEnabled(false);
-			this._forceLawsB.setEnabled(false);
-			this._viewerB.setEnabled(false);
-			this._runB.setEnabled(false);
 			this._stopped = false;
+			settingEnable();
 			//2
-	//		this._ctrl.setDeltaTime();
+			Double t = Double.parseDouble(_timeTextField.getText());
+			if(t > 0) {
+			this._ctrl.setDeltaTime(Double.parseDouble(_timeTextField.getText()));
+			}
 			//3
+			int count = Integer.parseInt(_stepsSpinner.getValue().toString());
+			run_sim(count);
 		});
 		_toolaBar.add(_runB);
 		
@@ -107,17 +123,13 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 		_stopB.setToolTipText("Stop");
 		_stopB.setIcon(new ImageIcon("resources/icons/stop.png"));
 		_stopB.addActionListener((e) -> {
-			this._ficherosB.setEnabled(true);
-			this._forceLawsB.setEnabled(true);
-			this._viewerB.setEnabled(true);
-			this._runB.setEnabled(true);
 			this._stopped = true;
 		});
 		_toolaBar.add(_stopB);
 		
 		JLabel _stepsL = new JLabel("Steps: ");
 		_toolaBar.add(_stepsL);
-		_stepsSpinner = new JSpinner();
+		_stepsSpinner = new JSpinner(new SpinnerNumberModel(1000,0,1000000,100));
 		_stepsSpinner.setPreferredSize(new Dimension(80,30));
 		_stepsSpinner.setMaximumSize(new Dimension(80,30));
 		_toolaBar.add(_stepsSpinner);
@@ -144,6 +156,37 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 	}
 	
 	// TODO el resto de métodos van aquí…
+	
+	private void run_sim(int n) {
+		if (n > 0 && !_stopped) {
+		try {
+		_ctrl.run(n);
+		} catch (Exception e) {
+		// TODO llamar a Utils.showErrorMsg con el mensaje de error que
+		// corresponda
+			Utils.showErrorMsg(e.toString());
+		// TODO activar todos los botones
+			_stopped = true;
+			settingEnable();
+		return;
+		}
+		SwingUtilities.invokeLater(() -> run_sim(n - 1));
+		} else {
+		// TODO activar todos los botones
+			_stopped = true;
+			settingEnable();
+		}
+	}
+	
+	
+	private void settingEnable() {
+		this._ficherosB.setEnabled(_stopped);
+		this._forceLawsB.setEnabled(_stopped);
+		this._viewerB.setEnabled(_stopped);
+		this._runB.setEnabled(_stopped);
+		this._stepsSpinner.setEnabled(_stopped);
+		this._timeTextField.setEnabled(_stopped);
+	}
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub
@@ -159,7 +202,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-		
+		this._timeTextField.setText("" + dt);
 	}
 
 	@Override
@@ -177,7 +220,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 	@Override
 	public void onDeltaTimeChanged(double dt) {
 		// TODO Auto-generated method stub
-		
+		this._timeTextField.setText("" + dt);
 	}
 
 	@Override
