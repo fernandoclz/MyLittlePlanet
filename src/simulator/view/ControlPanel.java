@@ -44,6 +44,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 	private JSpinner _stepsSpinner;
 	private JTextField _timeTextField;
 	private ForceLawsDialog _forceD;
+	private ViewerWindow _viewer;
 	
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
@@ -103,7 +104,10 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 		_viewerB = new JButton();
 		_viewerB.setToolTipText("Viewer");
 		_viewerB.setIcon(new ImageIcon("resources/icons/viewer.png"));
-		_viewerB.addActionListener((e) -> Utils.quit(this));
+		_viewerB.addActionListener((e) -> {
+			JFrame frame = null;
+			_viewer = new ViewerWindow(frame, _ctrl);
+		});
 		_toolaBar.add(_viewerB);
 		
 		_toolaBar.addSeparator();

@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -15,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import simulator.misc.Vector2D;
 import simulator.model.BodiesGroup;
 import simulator.model.Body;
@@ -84,6 +88,7 @@ class Viewer extends SimulationViewer {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
+						
 			}
 
 			@Override
@@ -100,10 +105,14 @@ class Viewer extends SimulationViewer {
 			 * paintComponent
 			 * 
 			 * ES: Gestiona las teclas 'j','l','i','m' para sumar 10/-10 a
-			 * _originX/_originY, y luego llame a repaint(). Esto hará que el punto de
-			 * origen se mueva hacia la izquierda/derecha/arriba/abajo. Vea cómo se calculan
-			 * los valores de _centerX y _centerY en el método paintComponent
-			 * 
+			 * _originX/_originY, y luego llame a repaint(). Esto harï¿½ que el punto de
+			 * origen se mueva hacia la izquierda/derecha/arriba/abajo. Vea cï¿½mo se calculan
+			 * los valores de _centerX y _centerY en el mï¿½todo paintComponent
+			 */
+			
+			
+			
+			/*
 			 * TODO
 			 * 
 			 * EN: handle key 'k' to set _originX and _originY to 0, and then call
@@ -119,8 +128,8 @@ class Viewer extends SimulationViewer {
 			 * paintComponent
 			 * 
 			 * ES: gestiona la tecla 'h' para cambiar el valor de _showHelp a !_showHelp, y
-			 * luego llame a repaint(). Esto hará que se muestre/oculte el texto de ayuda -
-			 * ver método paintComponent
+			 * luego llame a repaint(). Esto harï¿½ que se muestre/oculte el texto de ayuda -
+			 * ver mï¿½todo paintComponent
 			 * 
 			 * TODO
 			 * 
@@ -143,11 +152,11 @@ class Viewer extends SimulationViewer {
 			 * those that belong to the selected group.
 			 * 
 			 * ES: gestionar la tecla 'g' de manera que haga visible el siguiente grupo.
-			 * Tenga en cuenta que después del último grupo, se muestran todos los cuerpos.
+			 * Tenga en cuenta que despuï¿½s del ï¿½ltimo grupo, se muestran todos los cuerpos.
 			 * Esto se puede hacer modificando _selectedGroupIdx de -1 (todos los grupos) a
 			 * _groups.size()-1 de forma circular. Cuando su valor es -1, _selectedGroup
-			 * sería nulo, de lo contrario, sería el id del grupo correspondiente. En el
-			 * método showBodies, solo dibujarás los que pertenecen al grupo seleccionado.
+			 * serï¿½a nulo, de lo contrario, serï¿½a el id del grupo correspondiente. En el
+			 * mï¿½todo showBodies, solo dibujarï¿½s los que pertenecen al grupo seleccionado.
 			 * 
 			 */
 			@Override
@@ -166,6 +175,44 @@ class Viewer extends SimulationViewer {
 					repaint();
 					break;
 
+				case 'j':
+					_originX += 10;
+					repaint();
+					break;
+				case 'l':
+					_originX -= 10;
+					repaint();
+					break;
+				case 'i':
+					_originY -= 10;
+					repaint();
+					break;
+				case 'm':
+					_originY += 10;
+					repaint();
+					break;
+					
+				case 'k':
+					_originX = 0;
+					_originY = 0;
+					repaint();
+					break;
+					
+				case 'h':
+					_showHelp =!_showHelp;
+					repaint();
+					break;
+				
+				case 'v':
+					_showVectors =!_showVectors;
+					repaint();
+					break;
+					
+				case 'g':
+					_selectedGroupIdx =_groups.size()-1;
+					repaint();
+					break;
+					
 				default:
 				}
 			}
@@ -212,7 +259,11 @@ class Viewer extends SimulationViewer {
 		_centerY = getHeight() / 2 - _originY;
 
 		// TODO draw red cross at (_centerX,_centerY)
-
+		g.setColor(Color.RED);
+		g.drawLine(_centerX, _centerY-5, _centerX, _centerY+5);
+		g.setColor(Color.RED);
+		g.drawLine(_centerX-5, _centerY, _centerX+5, _centerY);
+		
 		// draw bodies
 		drawBodies(gr);
 
@@ -234,7 +285,7 @@ class Viewer extends SimulationViewer {
 		 * Scaling ratio: ... 
 		 * Selected Group: ...
 		 * 
-		 * ES: completa el método para que muestre el siguiente texto en la esquina
+		 * ES: completa el mï¿½todo para que muestre el siguiente texto en la esquina
 		 * superior izquierda:
 		 * 
 		 * h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit 
@@ -244,6 +295,29 @@ class Viewer extends SimulationViewer {
 		 * Selected Group: ...
 		 * 
 		 */
+		 
+		//no sale
+		JPanel textoPanel = new JPanel();
+		textoPanel.setLayout(null);
+		
+		JLabel textoRojo = new JLabel("h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit");
+//		 + 
+//			"l: move right, j: move left, i: move up, m: move down: k: reset" + 
+//			"g: show next group" + "Scaling ratio: "
+		textoRojo.setHorizontalAlignment(JLabel.LEFT);
+		textoRojo.setForeground(Color.red);
+		textoRojo. setLocation (0, 0);
+		textoRojo. setSize (50, 40);
+		textoRojo.setOpaque(true);
+		textoPanel.add(textoRojo);
+		
+		JLabel textoAzul = new JLabel("Selected Group: ");
+		textoAzul.setHorizontalAlignment(JLabel.LEFT);
+		textoAzul.setForeground(Color.blue);
+		textoPanel.add(textoAzul);
+		
+		textoPanel.setVisible(true);
+		
 	}
 
 	private void drawBodies(Graphics2D g) {
@@ -262,13 +336,19 @@ class Viewer extends SimulationViewer {
 		 * ES: Dibuja todos los cuerpos para los que isVisible(b) devuelve 'true' (ver
 		 * isVisible abajo, devuelve 'true' si el cuerpo pertenece al grupo
 		 * seleccionado). Para cada cuerpo, debes dibujar los vectores de velocidad y
-		 * fuerza si _showVectors es 'true'. Usa el método drawLineWithArrow para
+		 * fuerza si _showVectors es 'true'. Usa el mï¿½todo drawLineWithArrow para
 		 * dibujar los vectores. El color del cuerpo 'b' debe ser
-		 * _gColor.get(b.getgId()) -- ver el método addGroup. Como punto de origen usar
+		 * _gColor.get(b.getgId()) -- ver el mï¿½todo addGroup. Como punto de origen usar
 		 * (_centerX,_centerY), y recordar dividir las coordenadas del cuerpo por el
 		 * valor de _scale.
 		 * 
 		 */
+
+//		for(Body b: _bodies) {
+//			if(isVisible()){
+//				
+//			}
+//		}
 	}
 
 	private boolean isVisible(Body b) {
@@ -306,7 +386,7 @@ class Viewer extends SimulationViewer {
 		 * 
 		 * EN: add g to _groups and its bodies to _bodies
 		 *
-		 * ES: añadir g a _groups y sus cuerpos a _bodies
+		 * ES: aï¿½adir g a _groups y sus cuerpos a _bodies
 		 * 
 		 */
 		_gColor.put(g.getId(), _colorGen.nextColor()); // assign color to group
@@ -321,7 +401,7 @@ class Viewer extends SimulationViewer {
 		 * 
 		 *  EN: add b to _bodies
 		 *  
-		 *  ES: añadir b a _bodies
+		 *  ES: aï¿½adir b a _bodies
 		 *  
 		 */
 		autoScale();
@@ -335,7 +415,7 @@ class Viewer extends SimulationViewer {
 		 * 
 		 * EN: clear the group list, bodies list, and the colors map
 		 * 
-		 * ES: borrar (usando el método clear) la lista de grupos, la lista de cuerpos y
+		 * ES: borrar (usando el mï¿½todo clear) la lista de grupos, la lista de cuerpos y
 		 * el mapa de colores
 		 * 
 		 */
