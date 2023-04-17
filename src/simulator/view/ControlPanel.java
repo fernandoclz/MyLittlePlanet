@@ -13,6 +13,7 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -42,6 +43,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 	private JButton _stopB;
 	private JSpinner _stepsSpinner;
 	private JTextField _timeTextField;
+	private ForceLawsDialog _forceD;
 	
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
@@ -88,7 +90,13 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 		_forceLawsB = new JButton();
 		_forceLawsB.setToolTipText("Force Laws");
 		_forceLawsB.setIcon(new ImageIcon("resources/icons/physics.png"));
-		_forceLawsB.addActionListener((e) -> Utils.quit(this));
+		_forceLawsB.addActionListener((e) -> {
+			if(_forceD == null) {
+				JFrame frame = null;
+				_forceD = new ForceLawsDialog(frame, _ctrl);
+			}
+			_forceD.open();
+		});
 		_toolaBar.add(_forceLawsB);
 		
 		//Viewer Button
