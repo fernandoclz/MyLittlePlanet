@@ -1,6 +1,7 @@
 package simulator.view;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -296,28 +297,14 @@ class Viewer extends SimulationViewer {
 		 * 
 		 */
 		 
-		//no sale
-		JPanel textoPanel = new JPanel();
-		textoPanel.setLayout(null);
-		
-		JLabel textoRojo = new JLabel("h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit");
-//		 + 
-//			"l: move right, j: move left, i: move up, m: move down: k: reset" + 
-//			"g: show next group" + "Scaling ratio: "
-		textoRojo.setHorizontalAlignment(JLabel.LEFT);
-		textoRojo.setForeground(Color.red);
-		textoRojo. setLocation (0, 0);
-		textoRojo. setSize (50, 40);
-		textoRojo.setOpaque(true);
-		textoPanel.add(textoRojo);
-		
-		JLabel textoAzul = new JLabel("Selected Group: ");
-		textoAzul.setHorizontalAlignment(JLabel.LEFT);
-		textoAzul.setForeground(Color.blue);
-		textoPanel.add(textoAzul);
-		
-		textoPanel.setVisible(true);
-		
+		g.setColor(Color.RED);
+		g.drawString("h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit", 10, 20);
+		g.drawString("g: show next group", 10, 40);
+		g.drawString("l: move right, j: move left, i: move up, m: move down: k: reset", 10, 60);
+		g.drawString("Scaling ratio: ", 10, 80);
+		g.setColor(Color.BLUE);
+		g.drawString("Selected Group: ", 10, 100);
+	
 	}
 
 	private void drawBodies(Graphics2D g) {
@@ -344,11 +331,14 @@ class Viewer extends SimulationViewer {
 		 * 
 		 */
 
-//		for(Body b: _bodies) {
-//			if(isVisible()){
-//				
-//			}
-//		}
+		for(Body b: _bodies) { //no entra
+			if(isVisible(b)){
+				g.setColor(_gColor.get(b.getgId()));
+				//g.drawOval(_centerX, _centerY, (b.getPosition().getX()/_scale), (b.getPosition().getY()/_scale));
+				g.fillOval((int)(b.getPosition().getX()/_scale), (int)(b.getPosition().getY()/_scale), 5, 5);
+				
+			}
+		}
 	}
 
 	private boolean isVisible(Body b) {
@@ -360,7 +350,7 @@ class Viewer extends SimulationViewer {
 		 * ES: devuelve true si _selectedGroup es null o igual a b.getgId()
 		 *
 		 */
-		return false;
+		return (_selectedGroup == null || _selectedGroup == b.getgId());
 	}
 
 	// calculates a value for scale such that all visible bodies fit in the window
@@ -389,6 +379,11 @@ class Viewer extends SimulationViewer {
 		 * ES: a�adir g a _groups y sus cuerpos a _bodies
 		 * 
 		 */
+		_groups.add(g);
+		for(Body b : g) {
+			_bodies.add(b);
+		}
+		
 		_gColor.put(g.getId(), _colorGen.nextColor()); // assign color to group
 		autoScale();
 		update();
@@ -404,6 +399,8 @@ class Viewer extends SimulationViewer {
 		 *  ES: a�adir b a _bodies
 		 *  
 		 */
+		_bodies.add(b);
+		
 		autoScale();
 		update();
 	}
@@ -419,6 +416,10 @@ class Viewer extends SimulationViewer {
 		 * el mapa de colores
 		 * 
 		 */
+		_groups.clear();
+		_bodies.clear();
+		_gColor.clear();
+		
 		_colorGen.reset(); // reset the color generator
 		_selectedGroupIdx = -1;
 		_selectedGroup = null;

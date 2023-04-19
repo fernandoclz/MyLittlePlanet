@@ -34,6 +34,10 @@ class ViewerWindow extends JFrame implements SimulatorObserver {
 		// TODO poner contentPane como mainPanel con scrollbars (JScrollPane)
 		JScrollPane s = new JScrollPane(mainPanel);
 		setContentPane(s);
+		/*JScrollPane s = new JScrollPane();
+		 * mainPanel.add(s);
+		 * setContentPane(mainPanel);
+		*/
 		
 		// TODO crear el viewer y añadirlo a mainPanel (en el centro)
 		_viewer = new Viewer();
@@ -51,7 +55,7 @@ class ViewerWindow extends JFrame implements SimulatorObserver {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// TODO Auto-generated method stub
-				//_ctrl.removeObserver(this);;
+				//_ctrl.removeObserver(this);
 			}
 		
 			@Override
