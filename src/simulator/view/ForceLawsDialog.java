@@ -1,7 +1,10 @@
 package simulator.view;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +15,11 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.control.Controller;
@@ -29,9 +34,12 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 	private Controller _ctrl;
 	private List<JSONObject> _forceLawsInfo;
 	private String[] _headers = { "Key", "Value", "Description" };
-	// TODO en caso de ser necesario, añadir los atributos aquí…
+	// TODO en caso de ser necesario, aï¿½adir los atributos aquï¿½
 	private List<BodiesGroup> _group;
 	private JButton _cancelB;
+	private JButton _okayB;
+	private int info;
+	private int _selectedLawsIndex;
 	ForceLawsDialog(Frame parent, Controller ctrl) {
 		super(parent, true);
 		_ctrl = ctrl;
@@ -45,12 +53,11 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		setContentPane(mainPanel);
-		// _forceLawsInfo se usará para establecer la información en la tabla
+		// _forceLawsInfo se usarï¿½ para establecer la informaciï¿½n en la tabla
 		_forceLawsInfo = _ctrl.getForceLawsInfo();
-		// TODO crear un JTable que use _dataTableModel, y añadirla al panel
-		JTable table = new JTable(_dataTableModel);
+		// TODO crear un JTable que use _dataTableModel, y aï¿½adirla al panel
+
 		
-		mainPanel.add(table);
 		_dataTableModel = new DefaultTableModel() {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -59,20 +66,48 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 			}
 		};
 		_dataTableModel.setColumnIdentifiers(_headers);
+		
+		JTable table = new JTable(_dataTableModel);
+		JScrollPane s = new JScrollPane(table);
+		updateTable(0);
+		mainPanel.add(s);
+
 		_lawsModel = new DefaultComboBoxModel<>();
-		// TODO añadir la descripción de todas las leyes de fuerza a _lawsModel
+		// TODO aï¿½adir la descripciï¿½n de todas las leyes de fuerza a _lawsModel
 		for(JSONObject o: _forceLawsInfo) {
 			_lawsModel.addElement(o.getString("desc"));
 		}
 		
-		// TODO crear un combobox que use _lawsModel y añadirlo al panel
+		// TODO crear un combobox que use _lawsModel y aï¿½adirlo al panel
 		JComboBox law = new JComboBox(_lawsModel);
+		
+		law.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String lName = (String) _lawsModel.getSelectedItem();
+				if(lName == "No force") {
+					info = 2;
+				}
+				else if(lName == "Newton's law of universal gravitation"){
+					info = 1;
+				}
+				else {
+					info = 0;
+				}
+				_selectedLawsIndex = info;
+				updateTable(_selectedLawsIndex);
+			}
+			
+		});
+		
 		mainPanel.add(law);
 		_groupsModel = new DefaultComboBoxModel<>();
 		for(BodiesGroup bg: _group) {
 			_groupsModel.addElement(bg.getId());
 		}
-		// TODO crear un combobox que use _groupsModel y añadirlo al panel
+		// TODO crear un combobox que use _groupsModel y aï¿½adirlo al panel
 		JComboBox groups = new JComboBox(_groupsModel);
 		mainPanel.add(groups);
 		
@@ -81,12 +116,40 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		law.setMaximumSize(new Dimension(330, 35));
 		groups.setPreferredSize(new Dimension(100, 35));
 		groups.setMaximumSize(new Dimension(100, 35));
-		// TODO crear los botones OK y Cancel y añadirlos al panel
-		_cancelB = new JButton();
+		// TODO crear los botones OK y Cancel y aï¿½adirlos al panel
+		
+		_okayB = new JButton("Okay");
+		
+		_okayB.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				setVisible(false);
+			}
+			
+		});
+		
+		
+		
+		mainPanel.add(_okayB);
+		
+		_cancelB = new JButton("Cancel");
+		
+		_cancelB.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				setVisible(false);
+			}
+			
+		});
 		
 		
 		
 		mainPanel.add(_cancelB);
+		
 		setPreferredSize(new Dimension(700, 400));
 		
 		
@@ -94,16 +157,32 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		setResizable(false);
 		setVisible(false);
 	}
+	
 	public void open() {
 		if (_groupsModel.getSize() == 0)
 			return;
-		// TODO Establecer la posición de la ventana de diálogo de tal manera que se
+		// TODO Establecer la posiciï¿½n de la ventana de diï¿½logo de tal manera que se
 		// abra en el centro de la ventana principal
 		pack();
 		setVisible(true);
 		return;
 	}
-	// TODO el resto de métodos van aquí…
+	// TODO el resto de mï¿½todos van aquï¿½
+	
+	public void updateTable(int index) {	
+		JSONObject jLaw = _forceLawsInfo.get(index);
+		JSONObject data = jLaw.getJSONObject("data");
+		int i = 0;
+		
+		_dataTableModel.setRowCount(0);
+		for(String key: data.keySet()) {
+			_dataTableModel.insertRow(i, new String[] {
+				key, "", data.getString(key)
+			});
+			i++;
+		}
+		_dataTableModel.fireTableDataChanged();
+	}
 	@Override
 	public void onAdvance(Map<String, BodiesGroup> groups, double time) {
 		// TODO Auto-generated method stub
