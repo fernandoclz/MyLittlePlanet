@@ -1,7 +1,11 @@
 package simulator.view;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +18,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -57,6 +62,25 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		_forceLawsInfo = _ctrl.getForceLawsInfo();
 		// TODO crear un JTable que use _dataTableModel, y a�adirla al panel
 
+		JPanel textos = new JPanel(new BorderLayout());
+		
+		JLabel text = new JLabel("Select a force law and provide values for the parameters in the ");
+		JLabel textBold = new JLabel("Value column ");
+		Font f= new Font("Arial", Font.BOLD, 14); // Nombre, Estilo, Tamaño
+		textBold.setFont(f);
+		JLabel endText = new JLabel("(default values are used for ");
+		JLabel endText1= new JLabel("parameters with no value)");
+		
+		textos.add(text, BorderLayout.WEST);
+		
+		JPanel ajuste = new JPanel (new BorderLayout());
+		
+		ajuste.add(textBold, BorderLayout.WEST);
+		ajuste.add(endText, BorderLayout.CENTER);
+		textos.add(ajuste, BorderLayout.CENTER);
+		textos.add(endText1, BorderLayout.SOUTH);
+		
+		mainPanel.add(textos);
 		
 		_dataTableModel = new DefaultTableModel() {
 			@Override
@@ -72,6 +96,8 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		updateTable(0);
 		mainPanel.add(s);
 
+		
+		JPanel boxes = new JPanel(new FlowLayout());
 		_lawsModel = new DefaultComboBoxModel<>();
 		// TODO a�adir la descripci�n de todas las leyes de fuerza a _lawsModel
 		for(JSONObject o: _forceLawsInfo) {
@@ -102,22 +128,27 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 			
 		});
 		
-		mainPanel.add(law);
+		boxes.add(law);
 		_groupsModel = new DefaultComboBoxModel<>();
 		for(BodiesGroup bg: _group) {
 			_groupsModel.addElement(bg.getId());
 		}
 		// TODO crear un combobox que use _groupsModel y a�adirlo al panel
 		JComboBox groups = new JComboBox(_groupsModel);
-		mainPanel.add(groups);
+		boxes.add(groups);
 		
 		
 		law.setPreferredSize(new Dimension(330, 35));
 		law.setMaximumSize(new Dimension(330, 35));
 		groups.setPreferredSize(new Dimension(100, 35));
 		groups.setMaximumSize(new Dimension(100, 35));
+		
+		mainPanel.add(boxes);
 		// TODO crear los botones OK y Cancel y a�adirlos al panel
 		
+		
+		JPanel botones = new JPanel();
+		botones.setLayout(new FlowLayout());
 		_okayB = new JButton("Okay");
 		
 		_okayB.addActionListener(new ActionListener() {
@@ -130,9 +161,9 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 			
 		});
 		
+		_okayB.setPreferredSize(new Dimension(100,30));
 		
-		
-		mainPanel.add(_okayB);
+		botones.add(_okayB);
 		
 		_cancelB = new JButton("Cancel");
 		
@@ -146,10 +177,10 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 			
 		});
 		
+		_cancelB.setPreferredSize(new Dimension(100,30));
 		
-		
-		mainPanel.add(_cancelB);
-		
+		botones.add(_cancelB);
+		mainPanel.add(botones);
 		setPreferredSize(new Dimension(700, 400));
 		
 		
