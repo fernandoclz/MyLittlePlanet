@@ -34,10 +34,6 @@ class ViewerWindow extends JFrame implements SimulatorObserver {
 		// TODO poner contentPane como mainPanel con scrollbars (JScrollPane)
 		JScrollPane s = new JScrollPane(mainPanel);
 		setContentPane(s);
-		/*JScrollPane s = new JScrollPane();
-		 * mainPanel.add(s);
-		 * setContentPane(mainPanel);
-		*/
 		
 		// TODO crear el viewer y añadirlo a mainPanel (en el centro)
 		_viewer = new Viewer();
@@ -55,7 +51,7 @@ class ViewerWindow extends JFrame implements SimulatorObserver {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// TODO Auto-generated method stub
-				//_ctrl.removeObserver(this);
+				_ctrl.removeObserver(ViewerWindow.this);
 			}
 		
 			@Override
@@ -104,12 +100,22 @@ class ViewerWindow extends JFrame implements SimulatorObserver {
 	@Override
 	public void onReset(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-		_viewer.reset();
+		for(BodiesGroup bg: groups.values()) {
+			_viewer.addGroup(bg);
+			for(Body b : bg) {
+				_viewer.addBody(b);
+			}
+		}
 	}
 	@Override
 	public void onRegister(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
-		
+		for(BodiesGroup bg: groups.values()) {
+			_viewer.addGroup(bg);
+			for(Body b : bg) {
+				_viewer.addBody(b);
+			}
+		}
 	}
 	@Override
 	public void onGroupAdded(Map<String, BodiesGroup> groups, BodiesGroup g) {

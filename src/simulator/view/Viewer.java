@@ -185,11 +185,11 @@ class Viewer extends SimulationViewer {
 					repaint();
 					break;
 				case 'i':
-					_originY -= 10;
+					_originY += 10;
 					repaint();
 					break;
 				case 'm':
-					_originY += 10;
+					_originY -= 10;
 					repaint();
 					break;
 					
@@ -330,12 +330,19 @@ class Viewer extends SimulationViewer {
 		 * valor de _scale.
 		 * 
 		 */
-
+		
 		for(Body b: _bodies) { //no entra
 			if(isVisible(b)){
+				Double c0 = (b.getPosition().getX()/_scale) + _centerX;
+				Double c1 = (-(b.getPosition().getY())/_scale) + _centerY;;
 				g.setColor(_gColor.get(b.getgId()));
-				//g.drawOval(_centerX, _centerY, (b.getPosition().getX()/_scale), (b.getPosition().getY()/_scale));
 				g.fillOval((int)(b.getPosition().getX()/_scale), (int)(b.getPosition().getY()/_scale), 5, 5);
+				if(_showVectors == true) {
+					int v0 = (int) (b.getVelocity().direction().getX()*26);
+					int v1 = (int) (-(b.getVelocity().direction().getX()*26));
+					this.drawLineWithArrow(g, (int)(c0+5), (int)(c1+5), (int)(v0+c0+5), (int)(v1+c1+5), 3, 3, Color.GREEN, null);
+				}
+				
 				
 			}
 		}
