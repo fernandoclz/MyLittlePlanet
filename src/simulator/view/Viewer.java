@@ -347,20 +347,31 @@ class Viewer extends SimulationViewer {
 		 * valor de _scale.
 		 * 
 		 */
+		Double vAux0;
+		Double vAux1;
+		Double fAux0;
+		Double fAux1;
 		for(Body b: _bodies) {
 			if(isVisible(b)){
 				Double c0 = (b.getPosition().getX()/_scale) + _centerX;
-				Double c1 = (-(b.getPosition().getY())/_scale) + _centerY;;
-				if(_showVectors == true) {
-					int v0 = (int) (b.getVelocity().direction().getX()*26);
-					int v1 = (int) (-(b.getVelocity().direction().getY()*26));
-					drawLineWithArrow(g, (int)(c0+5), (int)(c1+5), (int)(v0+c0+5), (int)(v1+c1+5), 3, 3, Color.GREEN, null);
-					int f0 = (int) (b.getForce().direction().getX()*26);
-					int f1 = (int) (-(b.getForce().direction().getY()*26));
-					drawLineWithArrow(g, (int)(c0+5), (int)(c1+5), (int)(f0+c0+5), (int)(f1+c1+5), 3, 3, Color.RED, null);
+				Double c1 = (-(b.getPosition().getY())/_scale) + _centerY;
+				Double c0b = c0 + 5;
+				Double c1b = c1 + 5;
+				
+				if(_showVectors) {
+					vAux0 = b.getVelocity().direction().getX()*30;
+					int v0 = vAux0.intValue();
+					vAux1 = -(b.getVelocity().direction().getY()*30);
+					int v1 = vAux1.intValue();
+					drawLineWithArrow(g, c0b.intValue(), c1b.intValue(), v0+c0b.intValue(), v1+c1b.intValue()+5, 3, 3, Color.GREEN, null);
+					fAux0 = b.getForce().direction().getX()*30;
+					int f0 = fAux0.intValue();
+					fAux1 = -(b.getForce().direction().getY()*30);
+					int f1 = fAux1.intValue();
+					drawLineWithArrow(g, c0b.intValue(), c1b.intValue(), f0+c0b.intValue(), f1+c1b.intValue(), 3, 3, Color.RED, null);
 				}
 				g.setColor(_gColor.get(b.getgId()));
-				g.fillOval(c0.intValue(), c1.intValue()+2, 10, 10);
+				g.fillOval(c0.intValue(), c1.intValue(), 10, 10);
 				g.setColor(Color.BLACK);
 				g.drawString(b.getId(),c0.intValue(), c1.intValue());
 			}
