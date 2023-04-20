@@ -210,7 +210,18 @@ class Viewer extends SimulationViewer {
 					break;
 					
 				case 'g':
-					_selectedGroupIdx =_groups.size()-1;
+					if(_selectedGroupIdx == -1) {
+						_selectedGroupIdx =_groups.size()-1;
+						_selectedGroup = _groups.get(_selectedGroupIdx).getId();
+					}
+					else {
+						_selectedGroupIdx--;
+						if(_selectedGroupIdx != -1)
+							_selectedGroup = _groups.get(_selectedGroupIdx).getId();
+						else {
+							_selectedGroup = null;
+						}
+					}
 					repaint();
 					break;
 					
@@ -301,9 +312,15 @@ class Viewer extends SimulationViewer {
 		g.drawString("h: toggle help, v: toggle vectors, +: zoom-in, -: zoom-out, =: fit", 10, 20);
 		g.drawString("g: show next group", 10, 40);
 		g.drawString("l: move right, j: move left, i: move up, m: move down: k: reset", 10, 60);
-		g.drawString("Scaling ratio: ", 10, 80);
+		g.drawString("Scaling ratio: " + _scale, 10, 80);
 		g.setColor(Color.BLUE);
-		g.drawString("Selected Group: ", 10, 100);
+		if(_selectedGroupIdx != -1) {
+			g.drawString("Selected Group: " + _selectedGroup, 10, 100);
+		}
+		else {
+			g.drawString("Selected Group: all groups" , 10, 100);
+		}
+
 	
 	}
 
@@ -330,22 +347,26 @@ class Viewer extends SimulationViewer {
 		 * valor de _scale.
 		 * 
 		 */
-		
-		for(Body b: _bodies) { //no entra
+		for(Body b: _bodies) {
 			if(isVisible(b)){
 				Double c0 = (b.getPosition().getX()/_scale) + _centerX;
 				Double c1 = (-(b.getPosition().getY())/_scale) + _centerY;;
-				g.setColor(_gColor.get(b.getgId()));
-				g.fillOval((int)(b.getPosition().getX()/_scale), (int)(b.getPosition().getY()/_scale), 5, 5);
 				if(_showVectors == true) {
 					int v0 = (int) (b.getVelocity().direction().getX()*26);
-					int v1 = (int) (-(b.getVelocity().direction().getX()*26));
-					this.drawLineWithArrow(g, (int)(c0+5), (int)(c1+5), (int)(v0+c0+5), (int)(v1+c1+5), 3, 3, Color.GREEN, null);
+					int v1 = (int) (-(b.getVelocity().direction().getY()*26));
+					drawLineWithArrow(g, (int)(c0+5), (int)(c1+5), (int)(v0+c0+5), (int)(v1+c1+5), 3, 3, Color.GREEN, null);
+					int f0 = (int) (b.getForce().direction().getX()*26);
+					int f1 = (int) (-(b.getForce().direction().getY()*26));
+					drawLineWithArrow(g, (int)(c0+5), (int)(c1+5), (int)(f0+c0+5), (int)(f1+c1+5), 3, 3, Color.RED, null);
 				}
-				
-				
+				g.setColor(_gColor.get(b.getgId()));
+				g.fillOval(c0.intValue(), c1.intValue()+2, 10, 10);
+				g.setColor(Color.BLACK);
+				g.drawString(b.getId(),c0.intValue(), c1.intValue());
 			}
 		}
+		autoScale();
+		update();
 	}
 
 	private boolean isVisible(Body b) {

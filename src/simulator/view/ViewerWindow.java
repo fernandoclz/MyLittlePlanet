@@ -100,6 +100,7 @@ class ViewerWindow extends JFrame implements SimulatorObserver {
 	@Override
 	public void onReset(Map<String, BodiesGroup> groups, double time, double dt) {
 		// TODO Auto-generated method stub
+		_viewer.reset();
 		for(BodiesGroup bg: groups.values()) {
 			_viewer.addGroup(bg);
 			for(Body b : bg) {
