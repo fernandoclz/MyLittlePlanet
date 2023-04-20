@@ -45,7 +45,7 @@ public class Controller {
         	arrL = jsonInupt.getJSONArray("laws");
         }
         
-        JSONArray arrB = jsonInupt.getJSONArray("bodies");
+        JSONArray arrB = jsonInupt.getJSONArray("bodies"); 
 
         for(int i = 0; i < g.length(); i++) {
              simulator.addGroup(g.getString(i));
@@ -59,22 +59,28 @@ public class Controller {
         }
     }
 
-    public void run(int n) { //n = num de pasos AQUI
-    	//no se ,uestra nada en un OutputStream en la 2ª práctica
-        //PrintStream p = new PrintStream(out);
+    public void run(int n, OutputStream out) { //n = num de pasos
 
-      //  p.println("{");
-        //p.println("\"states\": [");
+        PrintStream p = new PrintStream(out);
 
-     //   p.println(simulator.toString());
+        p.println("{");
+        p.println("\"states\": [");
+
+        p.println(simulator.toString());
         for(int i = 0; i < n; i++) { 
             simulator.advance();
-            //p.println("," +simulator.toString()); 
+            p.println("," +simulator.toString());
         }
         
-//        p.println("]");
-//        p.println("}");
+        p.println("]");
+        p.println("}");
 
+    }
+    
+    public void run(int n) {
+    	for(int i = 0; i < n; i++) { 
+            simulator.advance();
+        }
     }
     
     public void reset() {

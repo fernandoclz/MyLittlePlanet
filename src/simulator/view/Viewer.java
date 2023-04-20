@@ -376,8 +376,6 @@ class Viewer extends SimulationViewer {
 				g.drawString(b.getId(),c0.intValue(), c1.intValue());
 			}
 		}
-		autoScale();
-		update();
 	}
 
 	private boolean isVisible(Body b) {
@@ -389,7 +387,7 @@ class Viewer extends SimulationViewer {
 		 * ES: devuelve true si _selectedGroup es null o igual a b.getgId()
 		 *
 		 */
-		return (_selectedGroup == null || _selectedGroup == b.getgId());
+		return (_selectedGroup == null || _selectedGroup.equals(b.getgId()));
 	}
 
 	// calculates a value for scale such that all visible bodies fit in the window

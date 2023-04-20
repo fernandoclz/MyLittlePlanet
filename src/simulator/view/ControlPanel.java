@@ -78,10 +78,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 				InputStream inFile = null;
 				try {
 					inFile = new FileInputStream(fileName);
+					_ctrl.loadData(inFile);
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
+					Utils.showErrorMsg(e1.getMessage());
 				}
-				_ctrl.loadData(inFile);
 			}
 		});
 		_toolaBar.add(_ficherosB);
@@ -172,7 +173,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 	private void run_sim(int n) {
 		if (n > 0 && !_stopped) {
 		try {
-		_ctrl.run(n);
+		_ctrl.run(1);
 		} catch (Exception e) {
 		// TODO llamar a Utils.showErrorMsg con el mensaje de error que
 		// corresponda

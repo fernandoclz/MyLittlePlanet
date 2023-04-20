@@ -253,20 +253,23 @@ public class Main {
 	
 	private static void parseExecutionMode(CommandLine line) throws ParseException {
 		_mode = line.getOptionValue("m", _modeDefaultValue);
-		if(!(_mode == "batch" || _mode == "gui")) {
+		if(!(_mode.equals("batch") || _mode.equals("gui"))) {
 			throw new ParseException("Invalid mode value");
 		}
 	}
 	
 	private static void startGUIMode() throws Exception{
+		InputStream instream = null;
 		try {
-		InputStream instream = new FileInputStream(_inFile);
+		instream = new FileInputStream(_inFile);
 		}catch(Exception e){
 			
 		}
 		ForceLaws fl = _forceLawsFactory.createInstance(_forceLawsInfo);
 		PhysicsSimulator sim = new PhysicsSimulator(fl, _dtime);
 		Controller ctrl = new Controller(sim, _forceLawsFactory, _bodyFactory);
+		if(instream != null)
+			ctrl.loadData(instream);
 		SwingUtilities.invokeAndWait(() -> new MainWindow(ctrl));
 	}
 	private static void startBatchMode() throws Exception {
@@ -277,17 +280,17 @@ public class Main {
 		Controller ctrl = new Controller(sim, _forceLawsFactory, _bodyFactory);
 		
 		ctrl.loadData(instream);
-		ctrl.run(_steps);
+		ctrl.run(_steps, outstream);
 	}
 	
 	
 
 	private static void start(String[] args) throws Exception {
 		parseArgs(args);
-		if(_mode == "gui") {
+		if(_mode.equals("gui")) {
 			startGUIMode();
 		}
-		else if(_mode == "batch"){
+		else if(_mode.equals("batch")){
 			startBatchMode();
 		}
 	}
