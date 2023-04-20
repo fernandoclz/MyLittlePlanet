@@ -98,6 +98,8 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 
 		
 		JPanel boxes = new JPanel(new FlowLayout());
+		JLabel lawL = new JLabel("Force Law:");
+		boxes.add(lawL);
 		_lawsModel = new DefaultComboBoxModel<>();
 		// TODO a�adir la descripci�n de todas las leyes de fuerza a _lawsModel
 		for(JSONObject o: _forceLawsInfo) {
@@ -112,16 +114,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String lName = (String) _lawsModel.getSelectedItem();
-				if(lName == "No force") {
-					info = 2;
-				}
-				else if(lName == "Newton's law of universal gravitation"){
-					info = 1;
-				}
-				else {
-					info = 0;
-				}
+				info = law.getSelectedIndex();
 				_selectedLawsIndex = info;
 				updateTable(_selectedLawsIndex);
 			}
@@ -129,6 +122,8 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		});
 		
 		boxes.add(law);
+		JLabel groupL = new JLabel("Group:");
+		boxes.add(groupL);
 		_groupsModel = new DefaultComboBoxModel<>();
 		for(BodiesGroup bg: _group) {
 			_groupsModel.addElement(bg.getId());
@@ -149,6 +144,8 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		
 		JPanel botones = new JPanel();
 		botones.setLayout(new FlowLayout());
+		
+		
 		_okayB = new JButton("Okay");
 		
 		_okayB.addActionListener(new ActionListener() {
@@ -156,6 +153,15 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				
+				JSONObject data = getJSONData();
+				
+				JSONObject newL = new JSONObject();
+				
+				newL.put("type", _forceLawsInfo.get(_selectedLawsIndex).getString("type"));
+				newL.put("data", data);
+				
+				_ctrl.setForcesLaws(groups.getSelectedItem().toString(), newL);
 				setVisible(false);
 			}
 			
@@ -189,6 +195,16 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		setVisible(false);
 	}
 	
+	public JSONObject getJSONData() {
+		// TODO Auto-generated method stub
+		JSONObject data = new JSONObject();
+		String key = "";
+		for(int i = 0; i < _dataTableModel.getRowCount(); i++) {
+			key = _dataTableModel.getValueAt(i, 0).toString();
+			data.put(key, _dataTableModel.getValueAt(i, 1));
+		}
+		return data;
+	}
 	public void open() {
 		if (_groupsModel.getSize() == 0)
 			return;
