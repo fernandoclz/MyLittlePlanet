@@ -18,7 +18,11 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws>{
 		Vector2D c ;
 		Double g ;
 		if(data.has("c")) {
-			c = new Vector2D(data.getJSONArray("c").getDouble(0), data.getJSONArray("c").getDouble(1));
+			String valor = data.getString("c");
+			String partes[] = valor.split("\\,");
+			String primero  = partes[0].substring(1);
+			String segundo = partes[1].substring(0, partes[1].length()-1);
+			c = new Vector2D(Double.parseDouble(primero), Double.parseDouble(segundo));
 		}
 		else {
 			c = new Vector2D();
