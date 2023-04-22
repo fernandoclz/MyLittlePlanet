@@ -363,7 +363,7 @@ class Viewer extends SimulationViewer {
 					int v0 = vAux0.intValue();
 					vAux1 = -(b.getVelocity().direction().getY()*30);
 					int v1 = vAux1.intValue();
-					drawLineWithArrow(g, c0b.intValue(), c1b.intValue(), v0+c0b.intValue(), v1+c1b.intValue()+5, 3, 3, Color.GREEN, null);
+					drawLineWithArrow(g, c0b.intValue(), c1b.intValue(), v0+c0b.intValue(), v1+c1b.intValue(), 3, 3, Color.GREEN, null);
 					fAux0 = b.getForce().direction().getX()*30;
 					int f0 = fAux0.intValue();
 					fAux1 = -(b.getForce().direction().getY()*30);

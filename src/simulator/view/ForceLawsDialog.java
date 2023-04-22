@@ -80,7 +80,6 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		ajuste.add(endText, BorderLayout.CENTER);
 		textos.add(ajuste, BorderLayout.CENTER);
 		textos.add(endText1, BorderLayout.SOUTH);
-
 		mainPanel.add(textos);
 
 		_dataTableModel = new DefaultTableModel() {
@@ -161,8 +160,11 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 
 				newL.put("type", _forceLawsInfo.get(_selectedLawsIndex).getString("type"));
 				newL.put("data", data);
-
+				try {
 				_ctrl.setForcesLaws(groups.getSelectedItem().toString(), newL);
+				}catch(Exception e1) {
+					Utils.showErrorMsg(e1.getMessage());
+				}
 				setVisible(false);
 			}
 
@@ -206,27 +208,8 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		for(int i = 0; i < _dataTableModel.getRowCount(); i++) {
 			key = _dataTableModel.getValueAt(i, 0).toString();
 			value = _dataTableModel.getValueAt(i, 1).toString();
-			if(value != "") {
-				if(key == "c") {
-					try {
-						String[] partes = value.split("\\,");
-						if(partes[0].charAt(0) == '[' && partes[1].charAt(partes[1].length()-1) == ']') {
-							primero  = partes[0].substring(1);
-							segundo = partes[1].substring(0, partes[1].length()-1);
-						}
-						else {
-							throw new IllegalArgumentException("Faltan corchetes: []");
-						}
-						Vector2D pos = new Vector2D(Double.parseDouble(primero), Double.parseDouble(segundo));
-						data.put(key, pos.toString());
-					}catch(Exception e) {
-						Utils.showErrorMsg(e.toString());
-					}
-				}
-				else {
-					double valor = Double.parseDouble(value);
-					data.put(key, valor);
-				}
+			if(!value.equals("")) {
+				data.put(key, value);
 			}
 		}
 		return data;
