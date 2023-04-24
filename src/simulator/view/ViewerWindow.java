@@ -103,9 +103,6 @@ class ViewerWindow extends JFrame implements SimulatorObserver {
 		_viewer.reset();
 		for(BodiesGroup bg: groups.values()) {
 			_viewer.addGroup(bg);
-			for(Body b : bg) {
-				_viewer.addBody(b);
-			}
 		}
 	}
 	@Override
@@ -113,9 +110,6 @@ class ViewerWindow extends JFrame implements SimulatorObserver {
 		// TODO Auto-generated method stub
 		for(BodiesGroup bg: groups.values()) {
 			_viewer.addGroup(bg);
-			for(Body b : bg) {
-				_viewer.addBody(b);
-			}
 		}
 	}
 	@Override

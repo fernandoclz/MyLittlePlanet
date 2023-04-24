@@ -46,8 +46,10 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 	private JButton _okayB;
 	private int info;
 	private int _selectedLawsIndex;
+	private Frame parent;
 	ForceLawsDialog(Frame parent, Controller ctrl) {
 		super(parent, true);
+		this.parent = parent;
 		_ctrl = ctrl;
 		_group = new ArrayList<BodiesGroup>();
 		initGUI();
@@ -172,7 +174,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 
 		_okayB.setPreferredSize(new Dimension(100,30));
 
-		botones.add(_okayB);
+		
 
 		_cancelB = new JButton("Cancel");
 
@@ -189,6 +191,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		_cancelB.setPreferredSize(new Dimension(100,30));
 
 		botones.add(_cancelB);
+		botones.add(_okayB);
 		mainPanel.add(botones);
 		setPreferredSize(new Dimension(700, 400));
 
@@ -203,8 +206,6 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 		JSONObject data = new JSONObject();
 		String key = "";
 		String value;
-		String primero = null;
-		String segundo = null;
 		for(int i = 0; i < _dataTableModel.getRowCount(); i++) {
 			key = _dataTableModel.getValueAt(i, 0).toString();
 			value = _dataTableModel.getValueAt(i, 1).toString();
@@ -221,6 +222,7 @@ class ForceLawsDialog extends JDialog implements SimulatorObserver {
 			return;
 		// TODO Establecer la posici�n de la ventana de di�logo de tal manera que se
 		// abra en el centro de la ventana principal
+		setLocationRelativeTo(parent);
 		pack();
 		setVisible(true);
 		return;

@@ -2,7 +2,7 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
+import java.awt.Frame;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -94,8 +94,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver{
 		_forceLawsB.setIcon(new ImageIcon("resources/icons/physics.png"));
 		_forceLawsB.addActionListener((e) -> {
 			if(_forceD == null) {
-				JFrame frame = null;
-				_forceD = new ForceLawsDialog(frame, _ctrl);
+				_forceD = new ForceLawsDialog( (JFrame) SwingUtilities.getWindowAncestor(ControlPanel.this)
+						, _ctrl);
 			}
 			_forceD.open();
 		});

@@ -273,7 +273,6 @@ class Viewer extends SimulationViewer {
 		// TODO draw red cross at (_centerX,_centerY)
 		g.setColor(Color.RED);
 		g.drawLine(_centerX, _centerY-5, _centerX, _centerY+5);
-		g.setColor(Color.RED);
 		g.drawLine(_centerX-5, _centerY, _centerX+5, _centerY);
 		
 		// draw bodies
@@ -353,8 +352,8 @@ class Viewer extends SimulationViewer {
 		Double fAux1;
 		for(Body b: _bodies) {
 			if(isVisible(b)){
-				Double c0 = (b.getPosition().getX()/_scale) + _centerX;
-				Double c1 = (-(b.getPosition().getY())/_scale) + _centerY;
+				Double c0 = (b.getPosition().getX()/_scale) + _centerX -5;
+				Double c1 = (-(b.getPosition().getY())/_scale) + _centerY -5;
 				Double c0b = c0 + 5;
 				Double c1b = c1 + 5;
 				
